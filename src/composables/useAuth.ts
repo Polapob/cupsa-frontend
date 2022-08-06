@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import authService from "../services/AuthService";
 import { setToken } from "../utils/AuthService/token";
-import { ILoginResponse } from "../utils/AuthService/type";
+import router from "../router";
 
 const useAuth = () => {
   const email = ref("");
@@ -17,6 +17,7 @@ const useAuth = () => {
         } = response;
         if (success) {
           setToken(token);
+          router.push("/check-friend");
         }
       }
     } catch (err) {

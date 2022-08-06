@@ -5,7 +5,7 @@ import { UpdateUserBodyTypes } from "../utils/UserService/type";
 import { sampleCallback } from "./AuthService";
 
 class UserService {
-  callback: <T>(error: IErrorBase<T>) => void;
+  private readonly callback: <T>(error: IErrorBase<T>) => void;
   constructor(callback: <T>(error: IErrorBase<T>) => void) {
     this.callback = callback;
   }
@@ -23,7 +23,7 @@ class UserService {
     try {
       const response = await apiClient.post("/lineApi/self", body, {
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          "content-type": "application/x-www-form-urlencoded",
         },
       });
       return response;

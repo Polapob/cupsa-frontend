@@ -3,11 +3,12 @@ import { ILoginResponse } from "../utils/AuthService/type";
 import apiClient from "../utils/axios/axios";
 import { IErrorBase } from "../utils/axios/axiosError.type";
 import axiosErrorHandler from "../utils/axios/errorHandler";
+import qs from "qs";
 
 type ILoginBodyTypes = Record<"email" | "password", string>;
 
 class AuthService {
-  callback: <T>(error: IErrorBase<T>) => void;
+  private readonly callback: <T>(error: IErrorBase<T>) => void;
   constructor(callback: <T>(error: IErrorBase<T>) => void) {
     this.callback = callback;
   }
@@ -17,12 +18,13 @@ class AuthService {
       const { email, password } = body;
       const res = await apiClient.post<ILoginResponse>(
         "/lineApi/login",
-        {
+        qs.stringify({
           auth: base64EncodedBody(email, password),
-        },
+        }),
         {
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
+            "content-type": "application/x-www-form-urlencoded",
+            accept: "*/*",
           },
         }
       );

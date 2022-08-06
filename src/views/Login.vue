@@ -8,7 +8,6 @@ const [handleOnSubmit, email, password] = useAuth();
     <div class="flex flex-col justify-center items-start">
       <div class="text-xl font-bold my-2 border-blue-600 border-b-2">Username</div>
       <input v-model="email" class="focus:outline-none border-2 text py-2 px-4 rounded-lg w-[300px]" />
-      <div>{{ email }}</div>
     </div>
     <div class="flex flex-col justify-center items-start">
       <div class="text-xl font-bold my-2 border-blue-600 border-b-2">Password</div>

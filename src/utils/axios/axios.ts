@@ -9,7 +9,7 @@ apiClient.interceptors.request.use(
   async (config) => {
     const authToken = getToken();
     config.params = {
-      auth: authToken,
+      token: authToken,
     };
     return config;
   },

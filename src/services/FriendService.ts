@@ -1,16 +1,17 @@
 import apiClient from "../utils/axios/axios";
 import { IErrorBase } from "../utils/axios/axiosError.type";
 import axiosErrorHandler from "../utils/axios/errorHandler";
+import { IGetFriendsInterface } from "../utils/FriendService/type";
 import { sampleCallback } from "./AuthService";
 
 class FriendService {
-  callback: <T>(error: IErrorBase<T>) => void;
+  private readonly callback: <T>(error: IErrorBase<T>) => void;
   constructor(callback: <T>(error: IErrorBase<T>) => void) {
     this.callback = callback;
   }
-  async findFriend() {
+  async getFriends() {
     try {
-      const response = await apiClient.get("/lineApi/friends");
+      const response = await apiClient.get<IGetFriendsInterface>("/lineApi/friends");
       return response;
     } catch (err) {
       console.log(err);
