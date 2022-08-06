@@ -13,6 +13,7 @@ class FriendService {
       const response = await apiClient.get("/lineApi/friends");
       return response;
     } catch (err) {
+      console.log(err);
       axiosErrorHandler(this.callback);
     }
   }

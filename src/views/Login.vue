@@ -1,17 +1,6 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
-interface InputFileEvent extends Event {
-  target: HTMLInputElement;
-}
-
-const email = ref("");
-const password = ref("");
-const message = ref("");
-
-function handleOnSubmit(email: string, password: string) {
-  alert(`submit ${email} ${password}`);
-}
+import useAuth from "../composables/useAuth.js";
+const [handleOnSubmit, email, password] = useAuth();
 </script>
 
 <template>
@@ -19,6 +8,7 @@ function handleOnSubmit(email: string, password: string) {
     <div class="flex flex-col justify-center items-start">
       <div class="text-xl font-bold my-2 border-blue-600 border-b-2">Username</div>
       <input v-model="email" class="focus:outline-none border-2 text py-2 px-4 rounded-lg w-[300px]" />
+      <div>{{ email }}</div>
     </div>
     <div class="flex flex-col justify-center items-start">
       <div class="text-xl font-bold my-2 border-blue-600 border-b-2">Password</div>

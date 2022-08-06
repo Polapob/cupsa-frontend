@@ -1,5 +1,5 @@
 const base64EncodedBody = (email: string, password: string) => {
-  return Buffer.from(`${email}:${password}`, "base64");
+  return btoa(`${email}:${password}`);
 };
 
 export default base64EncodedBody;

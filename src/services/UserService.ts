@@ -28,6 +28,7 @@ class UserService {
       });
       return response;
     } catch (err) {
+      console.log(err);
       axiosErrorHandler(this.callback);
     }
   }
