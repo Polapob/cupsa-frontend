@@ -1,7 +1,7 @@
 import apiClient from "../utils/axios/axios";
 import { IErrorBase } from "../utils/axios/axiosError.type";
 import axiosErrorHandler from "../utils/axios/errorHandler";
-import { UpdateUserBodyTypes } from "../utils/UserService/type";
+import { GetUserProfileResponse, UpdateUserBodyTypes } from "../utils/UserService/type";
 import { sampleCallback } from "./AuthService";
 
 class UserService {
@@ -12,8 +12,27 @@ class UserService {
 
   async getUserProfile() {
     try {
-      const response = await apiClient.get("/lineApi/self");
+      const response = await apiClient.get<GetUserProfileResponse>("/lineApi/self");
       return response;
+    } catch (err) {
+      axiosErrorHandler(this.callback);
+    }
+  }
+
+  async checkMember() {
+    try {
+      const userProfile = await this.getUserProfile();
+      if (userProfile?.data) {
+        const { is_member: isMember } = userProfile.data.result;
+        return { isMember: Boolean(parseInt(isMember)) };
+      }
+      throw new Error("Unauthorized", {
+        cause: {
+          name: "unauthorized",
+          message: "auth_token mismatch",
+          stack: "unauthorized",
+        },
+      });
     } catch (err) {
       axiosErrorHandler(this.callback);
     }

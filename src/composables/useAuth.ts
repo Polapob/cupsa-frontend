@@ -10,14 +10,13 @@ const useAuth = () => {
   const handleOnSubmit = async (email: string, password: string) => {
     try {
       const response = await authService.login({ email, password });
-      console.log("pass-this!");
       if (response) {
         const {
           data: { success, token, result },
         } = response;
         if (success) {
           setToken(token);
-          router.push("/check-friend");
+          router.push("/search-friends");
         }
       }
     } catch (err) {

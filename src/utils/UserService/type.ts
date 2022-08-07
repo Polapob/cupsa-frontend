@@ -1,3 +1,76 @@
 type UserBodyTypes = Record<"first_name" | "last_name" | "nick_name", string>;
 
 export type UpdateUserBodyTypes = Partial<UserBodyTypes>;
+export interface UserResult {
+  student_id: string;
+  tu_id: string;
+  member_id?: any;
+  member_ref?: any;
+  is_member: string;
+  first_name: string;
+  last_name: string;
+  nick_name: string;
+  first_name_eng?: any;
+  last_name_eng?: any;
+  first_name_old?: any;
+  last_name_old?: any;
+  sex: string;
+  prefix: string;
+  prefix_eng?: any;
+  picture?: any;
+  picture_name?: any;
+  picture_type?: any;
+  generation_id: string;
+  m4_room_id: string;
+  m5_room_id: string;
+  m6_room_id: string;
+  education_detail: string;
+  email: string;
+  email2?: any;
+  mobile: string;
+  website?: any;
+  address1: string;
+  address2?: any;
+  address_city_id?: any;
+  address_district_id?: any;
+  address_subdistrict_id?: any;
+  address_city: string;
+  address_district: string;
+  address_subdistrict: string;
+  address_phone?: any;
+  address_postcode: string;
+  address_country: string;
+  job?: any;
+  position?: any;
+  office1: string;
+  office2?: any;
+  office_city_id?: any;
+  office_district_id?: any;
+  office_subdistrict_id?: any;
+  office_city: string;
+  office_district: string;
+  office_subdistrict: string;
+  office_phone?: any;
+  office_postcode: string;
+  office_country: string;
+  consent: string;
+  consent_g1: string;
+  consent_g2: string;
+  consent_g3: string;
+  consent_g4: string;
+  consent_g5: string;
+  consent_details?: any;
+  active: string;
+  student_type: string;
+  student_type_number: string;
+  comment?: any;
+  create_time: string;
+  create_by: string;
+  update_time: string;
+  update_by: string;
+}
+
+export interface GetUserProfileResponse {
+  success: boolean;
+  result: UserResult;
+}
