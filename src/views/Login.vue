@@ -15,7 +15,7 @@ const [handleOnSubmit, email, password] = useAuth();
     </div>
     <button
       @click="() => handleOnSubmit(email, password)"
-      class="border-2 w-[500px] my-4 py-2 rounded-xl bg-blue-400 hover:bg-opacity-80 font-bold transition-[background-color] duration-200"
+      class="border-2 w-[500px] my-4 py-2 rounded-xl bg-blue-400 hover:bg-opacity-80 font-bold transition-all hover:text-[18px] hover:py-[10px] hover:w-[520px] duration-200"
     >
       Login
     </button>
