@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getToken } from "../AuthService/token";
+import localStorageService from "../../services/LocalstorageService";
 
 const apiClient = axios.create({
   baseURL: "https://www.triamudom-alumni.org/member",
@@ -7,7 +7,7 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   async (config) => {
-    const authToken = getToken();
+    const authToken = localStorageService.get("authToken");
     config.params = {
       token: authToken,
     };

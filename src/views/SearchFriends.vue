@@ -4,6 +4,8 @@ import usePagination from "../composables/usePagination";
 import Pagination from "../components/Pagination/Pagination.vue";
 import filterDataFromPagination from "../utils/SearchFriends/filterDataFromPagination";
 import { ref } from "vue";
+import { useQuery } from "vue-query";
+import friendService from "../services/FriendService";
 const [friends, numberOfFriends] = useFetchFriends();
 const selectPage = ref(1);
 const onSelectPage = (page: number) => {
@@ -15,6 +17,18 @@ const onNextPage = () => {
 const onPrevPage = () => {
   selectPage.value--;
 };
+
+/* const { data: fetchFriends2 } = useQuery(
+  ["fetch-user"],
+  () => {
+    return friendService.getFriends();
+  },
+  {
+    refetchOnWindowFocus: false,
+  }
+);
+
+console.log("query-data =", fetchFriends2); */
 </script>
 <template>
   <div class="flex flex-col justify-start items-center p-8 bg-gray-200 min-h-screen">

@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import authService from "../services/AuthService";
-import { setToken } from "../utils/AuthService/token";
 import router from "../router";
+import localStorageService from "../services/LocalstorageService";
 
 const useAuth = () => {
   const email = ref("");
@@ -15,7 +15,7 @@ const useAuth = () => {
           data: { success, token, result },
         } = response;
         if (success) {
-          setToken(token);
+          localStorageService.set("authToken", token);
           router.push("/search-friends");
         }
       }
