@@ -1,34 +1,50 @@
 <script setup lang="ts">
-import useFetchFriends from "../composables/useFetchFriends";
+import useSearchFriends from "../composables/useSearchFriends";
 import usePagination from "../composables/usePagination";
-import Pagination from "../components/Pagination/Pagination.vue";
-import filterDataFromPagination from "../utils/SearchFriends/filterDataFromPagination";
-import { ref, unref } from "vue";
-import { useQuery } from "vue-query";
-import friendService from "../services/FriendService";
-import useTestQuery from "../composables/useTestQuery";
-const [selectPage, onSelectPage, onNextPage, onPrevPage] = usePagination();
-const [friends, numberOfFriends] = useFetchFriends(selectPage);
-//console.log(testQuery);
+import { onMounted, onUnmounted, ref } from "vue";
+import calculateScrollData from "../utils/Composables/useScroll/calculateScrollData";
+import _ from "lodash";
+const dataRef = ref<HTMLDivElement | null>(null);
+const [selectPage] = usePagination();
+const [friends, numberOfFriends, input] = useSearchFriends(selectPage);
 
-/* const { data: fetchFriends2 } = useQuery(
-  ["fetch-user"],
-  () => {
-    return friendService.getFriends();
-  },
-  {
-    refetchOnWindowFocus: false,
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+function onScroll() {
+  const { scrollPosition, bottomPosition, scrollRatio } = calculateScrollData();
+
+  console.log("ratio =", scrollRatio);
+  if (scrollRatio >= 0.8 && numberOfFriends.value > 0) {
+    selectPage.value++;
   }
-);
+}
 
-console.log("query-data =", fetchFriends2); */
+const fn = _.debounce(() => {
+  onScroll();
+}, 300);
+
+onMounted(() => {
+  window.addEventListener("scroll", () => {
+    fn();
+  });
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", () => {
+    fn.cancel();
+  });
+});
 </script>
 <template>
-  <div class="flex flex-col justify-start items-center p-8 bg-gray-200 min-h-screen">
+  <div class="flex flex-col justify-start items-center p-8 bg-gray-200 min-h-screen relative" ref="dataRef">
+    <div class="hidden">{{ selectPage }}</div>
     <div class="font-bold text-2xl">Show List of your friends</div>
     <div class="font-bold text-[20px] my-2">You can search your friends</div>
-    <input class="my-5 rounded-md px-4 py-1 w-[300px] focus:outline-none" />
-    <div class="flex flex-col justify-center items-start w-[700px] gap-y-4 my-3">
+    <input class="my-5 rounded-md px-4 py-1 w-[300px] focus:outline-none" v-model.lazy="input" />
+    {{ input }}
+    <div class="flex flex-col justify-center items-start w-[700px] gap-y-4 my-3 border-2 border-black">
       <div v-for="friend in friends.data" v-bind:key="friend.id" class="w-full">
         <div class="flex flex-row justify-between items-center w-full border-2 px-8 py-4 rounded-xl bg-white">
           <div>เลขประจำตัว: {{ friend.id }}</div>
@@ -36,13 +52,11 @@ console.log("query-data =", fetchFriends2); */
         </div>
       </div>
     </div>
-    <Pagination
-      :max-page="10"
-      :select-page="selectPage"
-      :onSelectPage="onSelectPage"
-      :onNextPage="onNextPage"
-      :onPrevPage="onPrevPage"
-      v-if="numberOfFriends !== 0"
-    />
+    <button
+      class="absolute bottom-[32px] right-[64px] border-2 border-black w-12 h-12 rounded-full bg-blue-500 flex justify-center items-center"
+      @click="scrollToTop"
+    >
+      <font-awesome-icon icon="fa-solid fa-angles-up" class="text-white text-[20px]" />
+    </button>
   </div>
 </template>

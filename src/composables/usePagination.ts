@@ -3,17 +3,11 @@ import calculatePaginationResult from "../utils/Composables/usePagination/calcul
 import { IPaginationResult } from "../utils/Composables/usePagination/type";
 
 const usePagination = () => {
-  const selectPage = ref(1);
-  const onSelectPage = (page: number) => {
-    selectPage.value = page;
-  };
-  const onNextPage = () => {
+  const selectPage = ref(0);
+  const incrementPage = () => {
     selectPage.value++;
   };
-  const onPrevPage = () => {
-    selectPage.value--;
-  };
-  return [selectPage, onSelectPage, onNextPage, onPrevPage] as const;
+  return [selectPage] as const;
 };
 
 export default usePagination;

@@ -18,7 +18,6 @@ class FriendService {
           keyword,
         },
       });
-      console.log(response);
       return response;
     } catch (err) {
       console.log(err);
