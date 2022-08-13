@@ -44,7 +44,7 @@ onUnmounted(() => {
     <div class="font-bold text-[20px] my-2">You can search your friends</div>
     <input class="my-5 rounded-md px-4 py-1 w-[300px] focus:outline-none" v-model.lazy="input" />
     {{ input }}
-    <div class="flex flex-col justify-center items-start w-[700px] gap-y-4 my-3 border-2 border-black">
+    <div class="flex flex-col justify-center items-start w-[700px] gap-y-4 my-3">
       <div v-for="friend in friends.data" v-bind:key="friend.id" class="w-full">
         <div class="flex flex-row justify-between items-center w-full border-2 px-8 py-4 rounded-xl bg-white">
           <div>เลขประจำตัว: {{ friend.id }}</div>
@@ -52,10 +52,7 @@ onUnmounted(() => {
         </div>
       </div>
     </div>
-    <button
-      class="absolute bottom-[32px] right-[64px] border-2 border-black w-12 h-12 rounded-full bg-blue-500 flex justify-center items-center"
-      @click="scrollToTop"
-    >
+    <button class="absolute bottom-[32px] right-[64px] w-12 h-12 rounded-full bg-blue-500 flex justify-center items-center" @click="scrollToTop">
       <font-awesome-icon icon="fa-solid fa-angles-up" class="text-white text-[20px]" />
     </button>
   </div>
