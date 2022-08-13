@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { defineProps } from "vue";
 const props = defineProps<{
-  numberOfItems: number;
   maxPage: number;
   selectPage: number;
   onSelectPage: (page: number) => void;

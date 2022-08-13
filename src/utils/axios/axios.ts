@@ -9,6 +9,7 @@ apiClient.interceptors.request.use(
   async (config) => {
     const authToken = localStorageService.get("authToken");
     config.params = {
+      ...config.params,
       token: authToken,
     };
     return config;

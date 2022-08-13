@@ -9,9 +9,16 @@ class FriendService {
   constructor(callback: <T>(error: IErrorBase<T>) => void) {
     this.callback = callback;
   }
-  async getFriends() {
+  async getFriends(page: number, keyword = "") {
     try {
-      const response = await apiClient.get<IGetFriendsInterface>("/lineApi/friends");
+      const response = await apiClient.get<IGetFriendsInterface>("/lineApi/friends", {
+        params: {
+          limit: 30,
+          offset: page * 30,
+          keyword,
+        },
+      });
+      console.log(response);
       return response;
     } catch (err) {
       console.log(err);
