@@ -23,7 +23,6 @@ const GUARD_PATHS = ["/check-member-status", "/search-friends"];
 router.beforeEach((guard) => {
   const { path } = guard;
   if (!!GUARD_PATHS.find((eachPath) => path === eachPath)) {
-    console.log("pass-this =", path);
     if (!authService.validateAuthToken()) {
       return { path: "/login-guard", query: {} };
     }
