@@ -10,7 +10,7 @@ const useSearchFriends = (selectPage: Ref<number>) => {
   const fetchAt = reactive({ input: "", page: 0, maxPage: 0 });
 
   onMounted(async () => {
-    const fetchFriends = await friendService.getFriends(0);
+    const fetchFriends = await friendService.searchFriends(0);
 
     if (!fetchFriends) {
       return;
@@ -27,7 +27,7 @@ const useSearchFriends = (selectPage: Ref<number>) => {
 
   onUpdated(async () => {
     if (fetchAt.input === input.value && fetchAt.page !== selectPage.value) {
-      const fetchFriends = await friendService.getFriends(selectPage.value, input.value);
+      const fetchFriends = await friendService.searchFriends(selectPage.value, input.value);
       if (!fetchFriends) {
         return;
       }
@@ -45,7 +45,7 @@ const useSearchFriends = (selectPage: Ref<number>) => {
 
   watch(input, async () => {
     selectPage.value = 0;
-    const fetchFriends = await friendService.getFriends(0, input.value);
+    const fetchFriends = await friendService.searchFriends(0, input.value);
 
     if (!fetchFriends) {
       return;

@@ -1,7 +1,7 @@
 import apiClient from "../utils/axios/axios";
 import { IErrorBase } from "../utils/axios/axiosError.type";
 import axiosErrorHandler from "../utils/axios/errorHandler";
-import { IGetFriendsInterface } from "../utils/FriendService/type";
+import { ISearchFriendsInterface } from "../utils/FriendService/type";
 import { sampleCallback } from "./AuthService";
 
 class FriendService {
@@ -9,9 +9,9 @@ class FriendService {
   constructor(callback: <T>(error: IErrorBase<T>) => void) {
     this.callback = callback;
   }
-  async getFriends(page: number, keyword = "") {
+  async searchFriends(page: number, keyword = "") {
     try {
-      const response = await apiClient.get<IGetFriendsInterface>("/lineApi/friends", {
+      const response = await apiClient.get<ISearchFriendsInterface>("/lineApi/friends", {
         params: {
           limit: 30,
           offset: page * 30,

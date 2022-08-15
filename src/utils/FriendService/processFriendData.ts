@@ -1,8 +1,7 @@
-import { AxiosResponse } from "axios";
 import { FriendDataTypes } from "../Composables/useSearchFriends/type";
-import { IGetFriendsInterface } from "./type";
+import { SearchFriendsResponse } from "./type";
 
-const processFriendData = (responseData: AxiosResponse<IGetFriendsInterface, any>) => {
+const processFriendData = (responseData: SearchFriendsResponse) => {
   const {
     result: { data: friends, struct: paginationData },
   } = responseData.data;
