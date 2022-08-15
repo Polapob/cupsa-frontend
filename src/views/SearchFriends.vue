@@ -15,7 +15,7 @@ const scrollToTop = () => {
 function onScroll() {
   const { scrollPosition, bottomPosition, scrollRatio } = calculateScrollData();
 
-  if (scrollRatio >= 0.8 && friends.data.length > 0 && selectPage.value < fetchAt.maxPage) {
+  if (scrollRatio >= 0.8 && friends.data.length > 0 && selectPage.value < fetchAt.maxPage - 1) {
     selectPage.value++;
   }
 }
