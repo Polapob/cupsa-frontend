@@ -2,53 +2,66 @@ import { onMounted, onUpdated, reactive, Ref, ref, watch } from "vue";
 import friendService from "../services/FriendService";
 import processFriendData from "../utils/FriendService/processFriendData";
 import { useQuery } from "vue-query";
+import { FriendDataTypes } from "../utils/Composables/useSearchFriends/type";
 
 const useSearchFriends = (selectPage: Ref<number>) => {
-  const friends = reactive({ data: [] as { id: string; fullName: string }[] });
+  const friends = reactive({ data: [] as FriendDataTypes[] });
   const input = ref("");
-  const fetchAt = ref({ input: "", page: 0 });
-  const numberOfFriend = ref(0);
+  const fetchAt = reactive({ input: "", page: 0, maxPage: 0 });
 
   onMounted(async () => {
     const fetchFriends = await friendService.getFriends(0);
-    if (fetchFriends?.data) {
-      const arrayOfFriendData = processFriendData(fetchFriends.data.result);
-      fetchAt.value.page = 0;
-      friends.data = arrayOfFriendData;
-      numberOfFriend.value = friends.data.length;
+
+    if (!fetchFriends) {
+      return;
     }
+
+    const {
+      data,
+      paginationData: { all },
+    } = processFriendData(fetchFriends);
+    friends.data = data;
+    fetchAt.page = 0;
+    fetchAt.maxPage = Math.ceil(all / 30);
   });
 
   onUpdated(async () => {
-    if (fetchAt.value.page !== selectPage.value && fetchAt.value.input === input.value) {
+    if (fetchAt.input === input.value && fetchAt.page !== selectPage.value) {
       const fetchFriends = await friendService.getFriends(selectPage.value, input.value);
-      if (fetchFriends?.data) {
-        const arrayOfFriendData = processFriendData(fetchFriends.data.result);
-        friends.data = friends.data.concat(arrayOfFriendData);
-        fetchAt.value.page = selectPage.value;
-        numberOfFriend.value = friends.data.length;
+      if (!fetchFriends) {
+        return;
       }
+
+      const {
+        data,
+        paginationData: { all },
+      } = processFriendData(fetchFriends);
+      friends.data = friends.data.concat(data);
+      fetchAt.page = selectPage.value;
+      fetchAt.maxPage = Math.ceil(all / 30);
       return;
     }
-    if (fetchAt.value.page !== selectPage.value && fetchAt.value.input !== input.value) {
-      selectPage.value = 0;
-      const fetchFriends = await friendService.getFriends(0, input.value);
-      if (fetchFriends?.data) {
-        const arrayOfFriendData = processFriendData(fetchFriends.data.result);
-        friends.data = arrayOfFriendData;
-        fetchAt.value.page = 0;
-        fetchAt.value.input = input.value;
-        numberOfFriend.value = friends.data.length;
-      }
-    }
-    return;
   });
 
   watch(input, async () => {
     selectPage.value = 0;
+    const fetchFriends = await friendService.getFriends(0, input.value);
+
+    if (!fetchFriends) {
+      return;
+    }
+
+    const {
+      data,
+      paginationData: { all },
+    } = processFriendData(fetchFriends);
+    friends.data = data;
+    fetchAt.input = input.value;
+    fetchAt.page = 0;
+    fetchAt.maxPage = Math.ceil(all / 30);
   });
 
-  return [friends, numberOfFriend, input] as const;
+  return [friends, input, fetchAt] as const;
 };
 
 export default useSearchFriends;

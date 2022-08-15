@@ -6,7 +6,7 @@ import calculateScrollData from "../utils/Composables/useScroll/calculateScrollD
 import _ from "lodash";
 const dataRef = ref<HTMLDivElement | null>(null);
 const [selectPage] = usePagination();
-const [friends, numberOfFriends, input] = useSearchFriends(selectPage);
+const [friends, input, fetchAt] = useSearchFriends(selectPage);
 
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -15,7 +15,7 @@ const scrollToTop = () => {
 function onScroll() {
   const { scrollPosition, bottomPosition, scrollRatio } = calculateScrollData();
 
-  if (scrollRatio >= 0.8 && numberOfFriends.value > 0) {
+  if (scrollRatio >= 0.8 && friends.data.length > 0 && selectPage.value < fetchAt.maxPage) {
     selectPage.value++;
   }
 }

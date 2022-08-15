@@ -1,9 +1,17 @@
-import { FriendResultTypes } from "./type";
+import { AxiosResponse } from "axios";
+import { FriendDataTypes } from "../Composables/useSearchFriends/type";
+import { IGetFriendsInterface } from "./type";
 
-const processFriendData = (friends: FriendResultTypes) => {
-  return Object.entries(friends).reduce((prevValue, currentValue) => {
+const processFriendData = (responseData: AxiosResponse<IGetFriendsInterface, any>) => {
+  const {
+    result: { data: friends, struct: paginationData },
+  } = responseData.data;
+
+  const data = Object.entries(friends).reduce((prevValue, currentValue) => {
     return [...prevValue, { id: currentValue[0], fullName: currentValue[1] }];
-  }, [] as { id: string; fullName: string }[]);
+  }, [] as FriendDataTypes[]);
+
+  return { data, paginationData };
 };
 
 export default processFriendData;
