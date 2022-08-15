@@ -4,44 +4,22 @@ import usePagination from "../composables/usePagination";
 import { onMounted, onUnmounted, ref } from "vue";
 import calculateScrollData from "../utils/Composables/useScroll/calculateScrollData";
 import _ from "lodash";
+import useScroll from "../composables/useScroll";
 const dataRef = ref<HTMLDivElement | null>(null);
 const [selectPage] = usePagination();
 const [friends, input, fetchAt] = useSearchFriends(selectPage);
+const [onScroll] = useScroll({ friends, selectPage, fetchAt });
 
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
-
-function onScroll() {
-  const { scrollPosition, bottomPosition, scrollRatio } = calculateScrollData();
-
-  if (scrollRatio >= 0.8 && friends.data.length > 0 && selectPage.value < fetchAt.maxPage - 1) {
-    selectPage.value++;
-  }
-}
-
-const fn = _.debounce(() => {
-  onScroll();
-}, 300);
-
-onMounted(() => {
-  window.addEventListener("scroll", () => {
-    fn();
-  });
-});
-
-onUnmounted(() => {
-  window.removeEventListener("scroll", () => {
-    fn.cancel();
-  });
-});
 </script>
 <template>
   <div class="flex flex-col justify-start items-center p-8 bg-gray-200 min-h-screen relative" ref="dataRef">
     <div class="hidden">{{ selectPage }}</div>
     <div class="font-bold text-2xl">Show List of your friends</div>
     <div class="font-bold text-[20px] my-2">You can search your friends</div>
-    <input class="my-5 rounded-md px-4 py-1 w-[300px] focus:outline-none" v-model.lazy="input" />
+    <input class="my-5 rounded-md px-4 py-1 w-[300px] focus:outline-none" v-model="input" />
     {{ input }}
     <div class="flex flex-col justify-center items-start w-[700px] gap-y-4 my-3">
       <div v-for="friend in friends.data" v-bind:key="friend.id" class="w-full">
