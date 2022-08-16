@@ -1,24 +1,25 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const getImageUrl = (name: string) => {
+  return new URL(`../${name}`, import.meta.url).href;
+};
+</script>
 
 <template>
-  <div class="flex flex-row w-full justify-between items-center gap-8 px-8 bg-[#55AAFF]">
-    <div class="font-bold text-2xl">CUPSAA</div>
+  <div class="flex flex-row w-full justify-between items-center gap-8 py-4 mb-4 px-8 bg-white">
+    <div class="flex flex-row justify-start items-center gap-x-3">
+      <img :src="getImageUrl('public/icon/CUPSAA.png')" class="w-10 h-10" />
+      <div class="font-bold text-[20px]">CUPSAA</div>
+    </div>
     <div class="flex flex-row justify-start items-center gap-x-6">
-      <router-link to="/" class="p-4 border-b-4 border-[#55AAFF] hover:border-b-4 hover:border-[#00008B] transition-[border-color] duration-200">
-        <div class="font-bold">Home</div>
+      <router-link to="/login" class="w-[150px] py-2 rounded-lg hover:bg-gray-200 text-center transition-[background-color] duration-200">
+        <div class="font-bold">Log in</div>
       </router-link>
-      <router-link to="/login" class="p-4 border-b-4 border-[#55AAFF] hover:border-b-4 hover:border-[#00008B] transition-[border-color] duration-200">
-        <div class="font-bold">Login</div>
-      </router-link>
-      <router-link to="/search-friends" class="p-4 border-b-4 border-[#55AAFF] hover:border-b-4 hover:border-[#00008B] transition-[border-color] duration-200">
-        <div class="font-bold">Search Friends</div>
-      </router-link>
-      <router-link
-        to="/check-member-status"
-        class="p-4 border-b-4 border-[#55AAFF] hover:border-b-4 hover:border-[#00008B] transition-[border-color] duration-200"
+      <a
+        class="w-[150px] text-center rounded-lg py-2 text-white bg-[rgba(244,179,187,1)] transition-[background-color] duration-200 hover:bg-[rgba(244,179,187,0.85)]"
+        href="https://www.triamudom-alumni.org/member/user/registration"
+        target="_blank"
+        >Sign up</a
       >
-        <div class="font-bold">Status</div>
-      </router-link>
     </div>
   </div>
   <router-view />

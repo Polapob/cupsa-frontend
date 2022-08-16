@@ -1,6 +1,4 @@
-<template>
-  <h1>Home</h1>
-</template>
+<template></template>
 <script lang="ts">
 export default {};
 </script>
