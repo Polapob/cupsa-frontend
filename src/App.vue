@@ -7,7 +7,7 @@ const getImageUrl = (name: string) => {
 <template>
   <div class="flex flex-row w-full justify-between items-center gap-8 py-4 mb-4 px-8 bg-white">
     <div class="flex flex-row justify-start items-center gap-x-3">
-      <img :src="getImageUrl('public/icon/CUPSAA.png')" class="w-10 h-10" />
+      <img :src="getImageUrl('/icon/CUPSAA.png')" class="w-10 h-10" />
       <div class="font-bold text-[20px]">CUPSAA</div>
     </div>
     <div class="flex flex-row justify-start items-center gap-x-6">

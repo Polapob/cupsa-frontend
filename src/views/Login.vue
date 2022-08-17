@@ -1,13 +1,20 @@
 <script setup lang="ts">
-import useAuth from "../composables/useAuth.js";
+import { computed, onMounted, ref } from "vue";
+import useAuth from "../composables/useAuth";
+import validateLoginForm from "../utils/Login/validateLoginForm";
+import useEnterPress from "../composables/useEnterPress";
 const [handleOnSubmit, email, password] = useAuth();
+const [buttonRef, handleEnterpress] = useEnterPress();
+
+const isInputValid = computed(() => {
+  return validateLoginForm({ email: email.value, password: password.value });
+});
 </script>
 
 <template>
   <div class="p-8 flex flex-col justify-center items-center gap-y-6 border-2 border-black min-h-[90vh]">
-    <div class="flex flex-col justify-center items-center w-[500px] gap-y-8">
+    <div class="flex flex-col justify-center items-center w-[500px] gap-y-8" @keyup.enter="handleEnterpress()">
       <div class="text-3xl font-bold w-full text-start">Log In</div>
-
       <div class="flex flex-col justify-start items-center w-full gap-y-4">
         <div class="flex flex-col justify-center items-start w-full">
           <input v-model.trim.lazy="email" class="focus:outline-none border border-[#DFDFDF] text p-4 rounded-lg w-full bg-[#F3F3F3]" placeholder="Email" />
@@ -24,9 +31,13 @@ const [handleOnSubmit, email, password] = useAuth();
 
       <div class="relative min-w-[550px] border-2 flex justify-center items-center h-16">
         <button
+          ref="buttonRef"
           @click="() => handleOnSubmit(email, password)"
-          class="absolute py-3 rounded-xl text-[18px] text-white bg-blue-400 hover:bg-opacity-80 font-bold transition-all hover:py-[14px] hover:text-[20px] duration-200 w-[95%] hover:w-full bg-[rgba(244,179,187,1)]"
-          onkeypress="()=>{console.log('onKeyPress')}"
+          :disabled="!isInputValid"
+          :class="[
+            'absolute py-3 rounded-xl text-[18px] text-white font-bold bg-blue-400 transition-all duration-200 w-[95%] bg-[rgba(244,179,187,1)]',
+            isInputValid ? 'hover:bg-opacity-80 hover:py-[14px] hover:text-[20px] hover:w-full border-2' : 'disabled:bg-gray-500',
+          ]"
         >
           Log In
         </button>
