@@ -5,7 +5,6 @@ import userService from "./services/UserService";
 import { UserResult } from "./utils/UserService/type";
 
 const getImageUrl = (name: string) => {
-  console.log(new URL(`../${name}`, import.meta.url).href);
   return new URL(`${name}`, import.meta.url).href;
 };
 
