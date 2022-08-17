@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, RouteRecordRaw, RouterOptions } from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import SearchFriends from "../views/SearchFriends.vue";
@@ -6,8 +6,8 @@ import CheckMemberStatus from "../views/CheckMemberStatus.vue";
 import LoginGuard from "../views/LoginGuard.vue";
 import authService from "../services/AuthService";
 
-const routes = [
-  { path: "/", component: Home },
+const routes: RouteRecordRaw[] = [
+  { path: "/", redirect: "/login" },
   { path: "/login", component: Login },
   { path: "/search-friends", component: SearchFriends },
   { path: "/check-member-status", component: CheckMemberStatus },

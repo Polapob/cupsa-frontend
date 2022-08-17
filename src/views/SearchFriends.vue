@@ -14,16 +14,27 @@ const scrollToTop = () => {
 };
 </script>
 <template>
-  <div class="flex flex-col justify-start items-center p-8 bg-gray-200 min-h-screen relative">
+  <div class="flex flex-col justify-start items-center py-8 px-32 min-h-screen relative">
     <div class="hidden">{{ selectPage }}</div>
-    <div class="font-bold text-2xl">Show List of your friends</div>
-    <div class="font-bold text-[20px] my-2">You can search your friends</div>
-    <input class="my-5 rounded-md px-4 py-1 w-[300px] focus:outline-none" v-model="input" />
-    <div class="flex flex-col justify-center items-start w-[700px] gap-y-4 my-3">
+    <div class="font-bold text-2xl">ค้นหาเพื่อนจากชื่อ หรือ นามสกุล</div>
+    <div class="flex flex-row justify-start items-center border border-[#DFDFDF] w-[80%] mx-6 px-6 gap-x-4 bg-[#F3F3F3] my-5 rounded-md py-3">
+      <img src="/icon/SearchIcon.svg" class="w-6 h-6" />
+      <input class="focus:outline-none w-full bg-inherit" placeholder="Search" v-model="input" />
+    </div>
+    <div class="flex flex-col justify-center items-start gap-y-4 my-3 w-[80%]">
+      <div class="grid grid-cols-12 justify-start items-center w-full border-b border-b-[#DFDFDF] py-4 my-2">
+        <div class="text-[rgba(0,0,0,0.4)] col-span-5">NAME</div>
+        <div class="text-[rgba(0,0,0,0.4)] col-span-5">ID</div>
+        <div class="text-[rgba(0,0,0,0.4)] col-span-2">STATUS</div>
+      </div>
       <div v-for="friend in friends.data" v-bind:key="friend.id" class="w-full">
-        <div class="flex flex-row justify-between items-center w-full border-2 px-8 py-4 rounded-xl bg-white">
-          <div>เลขประจำตัว: {{ friend.id }}</div>
-          <div>ชื่อจริง: {{ friend.fullName }}</div>
+        <div class="grid grid-cols-12 justify-between items-center w-full py-4 rounded-xl w-f">
+          <div class="col-span-5">{{ friend.fullName }}</div>
+          <div class="col-span-5">{{ friend.id }}</div>
+          <div class="col-span-2 flex flex-row justify-start items-center gap-x-[14px]">
+            <div class="p-[4.5px] rounded-full bg-[#15C183]"></div>
+            <div>สามัญสมาชิก</div>
+          </div>
         </div>
       </div>
     </div>
