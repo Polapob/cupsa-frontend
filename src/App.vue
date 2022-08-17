@@ -4,10 +4,6 @@ import { onMounted } from "vue-demi";
 import userService from "./services/UserService";
 import { UserResult } from "./utils/UserService/type";
 
-const getImageUrl = (name: string) => {
-  return new URL(`${name}`, import.meta.url).href;
-};
-
 const userData = ref<UserResult>({} as UserResult);
 
 onMounted(() => {
@@ -29,7 +25,7 @@ onMounted(() => {
 <template>
   <div class="flex flex-row w-full justify-between items-center gap-8 py-4 mb-4 px-8 bg-white">
     <div class="flex flex-row justify-start items-center gap-x-3">
-      <img :src="getImageUrl('/icon/CUPSAA.png')" class="w-10 h-10" />
+      <img src="/icon/CUPSAA.png" class="w-10 h-10" />
       <div class="font-bold text-[20px]">CUPSAA</div>
     </div>
     <div class="flex flex-row justify-start items-center gap-x-6" v-if="!userData.email">
