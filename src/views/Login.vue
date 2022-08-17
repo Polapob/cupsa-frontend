@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed } from "vue";
 import useAuth from "../composables/useAuth";
 import validateLoginForm from "../utils/Login/validateLoginForm";
 import useEnterPress from "../composables/useEnterPress";
@@ -12,7 +12,7 @@ const isInputValid = computed(() => {
 </script>
 
 <template>
-  <div class="p-8 flex flex-col justify-center items-center gap-y-6 border-2 border-black min-h-[90vh]">
+  <div class="p-8 flex flex-col justify-center items-center gap-y-6 min-h-[90vh] bg-[url('/background/loginBackground.png')]">
     <div class="flex flex-col justify-center items-center w-[500px] gap-y-8" @keyup.enter="handleEnterpress()">
       <div class="text-3xl font-bold w-full text-start">Log In</div>
       <div class="flex flex-col justify-start items-center w-full gap-y-4">
@@ -29,14 +29,14 @@ const isInputValid = computed(() => {
         </div>
       </div>
 
-      <div class="relative min-w-[550px] border-2 flex justify-center items-center h-16">
+      <div class="relative min-w-[550px] flex justify-center items-center h-16">
         <button
           ref="buttonRef"
           @click="() => handleOnSubmit(email, password)"
           :disabled="!isInputValid"
           :class="[
-            'absolute py-3 rounded-xl text-[18px] text-white font-bold bg-blue-400 transition-all duration-200 w-[95%] bg-[rgba(244,179,187,1)]',
-            isInputValid ? 'hover:bg-opacity-80 hover:py-[14px] hover:text-[20px] hover:w-full border-2' : 'disabled:bg-gray-500',
+            'absolute py-3 rounded-xl text-[18px] text-white font-bold transition-all duration-200 w-[95%] bg-[rgba(244,179,187,1)]',
+            isInputValid ? 'hover:bg-opacity-80 hover:py-[14px] hover:text-[20px] hover:w-full' : 'disabled:bg-gray-500',
           ]"
         >
           Log In

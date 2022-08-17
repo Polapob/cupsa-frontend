@@ -5,7 +5,6 @@ import { onMounted, onUnmounted, ref } from "vue";
 import calculateScrollData from "../utils/Composables/useScroll/calculateScrollData";
 import _ from "lodash";
 import useScroll from "../composables/useScroll";
-const dataRef = ref<HTMLDivElement | null>(null);
 const [selectPage] = usePagination();
 const [friends, input, fetchAt] = useSearchFriends(selectPage);
 const [onScroll] = useScroll({ friends, selectPage, fetchAt });
@@ -15,7 +14,7 @@ const scrollToTop = () => {
 };
 </script>
 <template>
-  <div class="flex flex-col justify-start items-center p-8 bg-gray-200 min-h-screen relative" ref="dataRef">
+  <div class="flex flex-col justify-start items-center p-8 bg-gray-200 min-h-screen relative">
     <div class="hidden">{{ selectPage }}</div>
     <div class="font-bold text-2xl">Show List of your friends</div>
     <div class="font-bold text-[20px] my-2">You can search your friends</div>
