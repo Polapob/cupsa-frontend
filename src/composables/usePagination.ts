@@ -7,7 +7,7 @@ const usePagination = () => {
   const incrementPage = () => {
     selectPage.value++;
   };
-  return [selectPage] as const;
+  return [selectPage, incrementPage] as const;
 };
 
 export default usePagination;

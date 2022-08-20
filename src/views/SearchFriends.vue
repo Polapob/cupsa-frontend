@@ -1,19 +1,16 @@
 <script setup lang="ts">
 import useSearchFriends from "../composables/useSearchFriends";
-import usePagination from "../composables/usePagination";
 import Navbar from "../components/Navbar/Navbar.vue";
 import _ from "lodash";
 import useScroll from "../composables/useScroll";
 import Observer from "mobx-vue-lite";
 import friendStore from "../store/friends/model";
-import { getSnapshot } from "mobx-state-tree";
-const [selectPage] = usePagination();
+import { ref } from "vue";
 
-const [input, fetchAt] = useSearchFriends(selectPage);
-const { friends } = getSnapshot(friendStore);
-console.log(friends.length);
-const [] = useScroll({ numberOfFriends: friends.length, selectPage, fetchAt });
-
+const selectPage = ref<number>(0);
+const [input, fetchAt, numberOfFriends] = useSearchFriends(selectPage);
+const { friends } = friendStore;
+const [] = useScroll({ numberOfFriends: numberOfFriends, selectPage, fetchAt });
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
@@ -22,7 +19,6 @@ const scrollToTop = () => {
   <Navbar />
   <div class="flex flex-col justify-start items-center py-8 px-32 min-h-screen relative">
     <div class="hidden">{{ selectPage }}</div>
-    <div class="flex flex-col justify-center items-center">{{ friends.length }}</div>
     <div class="font-bold text-2xl">ค้นหาเพื่อนจากชื่อ หรือ นามสกุล</div>
     <div class="flex flex-row justify-start items-center border border-[#DFDFDF] w-[80%] mx-6 px-6 gap-x-4 bg-[#F3F3F3] my-5 rounded-md py-3">
       <img src="/icon/SearchIcon.svg" class="w-6 h-6" />

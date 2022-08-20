@@ -6,6 +6,7 @@ const useSearchFriends = (selectPage: Ref<number>) => {
   const input = ref("");
   const debounceInput = ref("");
   const fetchAt = reactive({ input: "", page: 0, maxPage: 0 });
+  const numberOfFriends = ref(0);
   const { searchFriends } = friendStore;
 
   const debounceFn = _.debounce((text: string) => {
@@ -20,9 +21,9 @@ const useSearchFriends = (selectPage: Ref<number>) => {
     }
 
     const {
-      data,
       paginationData: { all },
     } = fetchFriends;
+    numberOfFriends.value = friendStore.friends.length;
     fetchAt.page = 0;
     fetchAt.maxPage = Math.ceil(all / 30);
   });
@@ -35,9 +36,9 @@ const useSearchFriends = (selectPage: Ref<number>) => {
       }
 
       const {
-        data,
         paginationData: { all },
       } = fetchFriends;
+      numberOfFriends.value = friendStore.friends.length;
       fetchAt.page = selectPage.value;
       fetchAt.maxPage = Math.ceil(all / 30);
     }
@@ -52,10 +53,9 @@ const useSearchFriends = (selectPage: Ref<number>) => {
     }
 
     const {
-      data,
       paginationData: { all },
     } = fetchFriends;
-
+    numberOfFriends.value = friendStore.friends.length;
     fetchAt.page = 0;
     fetchAt.maxPage = Math.ceil(all / 30);
   });
@@ -68,7 +68,7 @@ const useSearchFriends = (selectPage: Ref<number>) => {
     debounceFn.cancel;
   });
 
-  return [input, fetchAt] as const;
+  return [input, fetchAt, numberOfFriends] as const;
 };
 
 export default useSearchFriends;

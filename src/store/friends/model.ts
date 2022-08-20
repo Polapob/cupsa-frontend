@@ -28,15 +28,20 @@ const Friends = types
   })
   .actions((self) => {
     const searchFriends = flow(function* (page: number, keyword = "") {
-      const response = (yield friendService.searchFriends(page, keyword)) as AxiosResponse<ISearchFriendsInterface, any> | undefined;
-      if (!response) {
-        return undefined;
+      try {
+        self.loadingStatus = LoadingStatus.LOADING;
+        const response = (yield friendService.searchFriends(page, keyword)) as AxiosResponse<ISearchFriendsInterface, any> | undefined;
+        if (!response) {
+          return undefined;
+        }
+        const { data, paginationData } = processFriendData(response);
+        //const searchFriendResult =
+        self.friends = cast(paginationData.from === 1 ? data : [...self.friends, ...data]);
+        self.loadingStatus = LoadingStatus.FINISH;
+        return { paginationData };
+      } catch (err) {
+        self.loadingStatus = LoadingStatus.ERROR;
       }
-      const { data, paginationData } = processFriendData(response);
-      //const searchFriendResult =
-      self.friends = cast(data);
-      console.log(self.friends.length);
-      return { data, paginationData };
     });
     return { searchFriends };
   });

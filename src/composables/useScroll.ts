@@ -9,14 +9,13 @@ interface IUserScrollInterface {
     maxPage: number;
   };
   selectPage: Ref<number>;
-  numberOfFriends: number;
+  numberOfFriends: Ref<number>;
 }
 
 const useScroll = ({ numberOfFriends, selectPage, fetchAt }: IUserScrollInterface) => {
   function onScroll() {
     const { scrollPosition, bottomPosition, scrollRatio } = calculateScrollData();
-
-    if (scrollRatio >= 0.8 && numberOfFriends > 0 && selectPage.value < fetchAt.maxPage - 1) {
+    if (scrollRatio >= 0.8 && numberOfFriends.value > 0 && selectPage.value < fetchAt.maxPage - 1) {
       selectPage.value++;
     }
   }
