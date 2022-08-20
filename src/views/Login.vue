@@ -3,7 +3,10 @@ import { computed } from "vue";
 import useAuth from "../composables/useAuth";
 import validateLoginForm from "../utils/Login/validateLoginForm";
 import useEnterPress from "../composables/useEnterPress";
+import userStore from "../store/user/model";
 const [handleOnSubmit, email, password] = useAuth();
+
+console.log(userStore.getFirstName, " ", userStore.checkMemberStatus);
 const [buttonRef, handleEnterpress] = useEnterPress();
 
 const isInputValid = computed(() => {
@@ -14,6 +17,7 @@ const isInputValid = computed(() => {
 <template>
   <div class="p-8 flex flex-col justify-center items-center gap-y-6 min-h-[90vh] bg-[url('/background/loginBackground.png')]">
     <div class="flex flex-col justify-center items-center w-[500px] gap-y-8" @keyup.enter="handleEnterpress()">
+      <div>Member Status {{ userStore.checkMemberStatus }}</div>
       <div class="text-3xl font-bold w-full text-start">Log In</div>
       <div class="flex flex-col justify-start items-center w-full gap-y-4">
         <div class="flex flex-col justify-center items-start w-full">
