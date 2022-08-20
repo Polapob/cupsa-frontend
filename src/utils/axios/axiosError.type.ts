@@ -18,3 +18,8 @@ export interface IOtherError extends IErrorBase {
   error: Error;
   type: "other-error";
 }
+
+export interface IErrorResponse {
+  message: string;
+  success: boolean;
+}
