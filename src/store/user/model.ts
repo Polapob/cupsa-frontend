@@ -1,5 +1,10 @@
-import { types } from "mobx-state-tree";
+import { AxiosResponse } from "axios";
+import { types, flow } from "mobx-state-tree";
+import authService from "../../services/AuthService";
+import { ILoginResponse } from "../../utils/AuthService/type";
+import { LoginFormDataTypes } from "../../utils/Login/type";
 import { defaultUserData, LoadingStatus } from "./type";
+import { persist } from "mst-persist";
 
 const UserResultModel = types.model({
   student_id: types.string,
@@ -70,7 +75,7 @@ const UserResultModel = types.model({
   update_by: types.string,
 });
 
-export const User = types
+const User = types
   .model("User", {
     userData: types.optional(UserResultModel, defaultUserData),
     loadingStatus: types.enumeration<LoadingStatus>(Object.values(LoadingStatus)),
@@ -85,4 +90,41 @@ export const User = types
         return self.userData.first_name;
       },
     };
+  })
+  .actions((self) => {
+    const login = flow(function* (loginBody: LoginFormDataTypes) {
+      self.loadingStatus = LoadingStatus.LOADING;
+      try {
+        const response = (yield authService.login(loginBody)) as AxiosResponse<ILoginResponse, any> | undefined;
+        self.loadingStatus = LoadingStatus.FINISH;
+        if (response) {
+          console.log("pass-this");
+          const {
+            data: {
+              token,
+              success,
+              result: { student_id, first_name, is_member },
+            },
+          } = response;
+
+          self.userData = { ...self.userData, student_id, first_name, is_member };
+          return { success, token };
+        }
+        return undefined;
+      } catch (error) {
+        self.loadingStatus = LoadingStatus.ERROR;
+      }
+    });
+    return { login };
   });
+
+const userStore = User.create({
+  loadingStatus: LoadingStatus.IDLE,
+  errorMessage: "",
+});
+
+await persist("userStore", userStore, {
+  jsonify: true,
+});
+
+export default userStore;

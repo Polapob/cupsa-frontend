@@ -806,10 +806,23 @@ mobx-state-tree@^5.1.6:
   resolved "https://registry.yarnpkg.com/mobx-state-tree/-/mobx-state-tree-5.1.6.tgz#b4c444d1c385ae736440739a93c8e6e1169eecee"
   integrity sha512-t4YNI3taTvDTMCyjA/bmX90HpPUMJEHX1OvyJqbfR6iOIWkJk+JbWc1aozIZxh2M5VA8xtHGnzu/2YGzSPUpJQ==
 
-mobx@^6.6.1:
+mobx-vue-lite@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/mobx-vue-lite/-/mobx-vue-lite-0.3.1.tgz#4933c94f9ce05dab90d20c19fffe85310ff2a376"
+  integrity sha512-TpyEjDtOaop9XsiTmkczapfSc3mQAkRtDutceieqZDaHiiVh2Skb4WvaGpZblE6TSHg/DmNCqtKO/0Yh7I9x5Q==
+  dependencies:
+    mobx "^6.4.2"
+    vue "^3.2.31"
+
+mobx@^6.4.2, mobx@^6.6.1:
   version "6.6.1"
   resolved "https://registry.yarnpkg.com/mobx/-/mobx-6.6.1.tgz#70ee6aa82f25aeb7e7d522bd621207434e509318"
   integrity sha512-7su3UZv5JF+ohLr2opabjbUAERfXstMY+wiBtey8yNAPoB8H187RaQXuhFjNkH8aE4iHbDWnhDFZw0+5ic4nGQ==
+
+mst-persist@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/mst-persist/-/mst-persist-0.1.3.tgz#ac7203f3ab36085106c4293d4a9cd67dd5613708"
+  integrity sha512-G2IzmTvi2E8zOTTCiMENkli+KmANhpPNlkguOEJp0dioqfdETDQjLO6QKy5hXhDTRIQhu48IlDJeNdyeZ8NIaw==
 
 nano-time@1.0.0:
   version "1.0.0"
@@ -1154,7 +1167,7 @@ vue-tsc@^0.38.4:
   dependencies:
     "@volar/vue-typescript" "0.38.9"
 
-vue@^3.2.37:
+vue@^3.2.31, vue@^3.2.37:
   version "3.2.37"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.37.tgz#da220ccb618d78579d25b06c7c21498ca4e5452e"
   integrity sha512-bOKEZxrm8Eh+fveCqS1/NkG/n6aMidsI6hahas7pa0w/l7jkbssJVsRhVDs07IdDq7h9KHswZOgItnwJAgtVtQ==

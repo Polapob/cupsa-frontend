@@ -1,25 +1,28 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onUpdated, ref, watch } from "vue";
 import { onMounted } from "vue-demi";
 import userService from "./services/UserService";
 import { UserResult } from "./utils/UserService/type";
+import { getSnapshot } from "mobx-state-tree";
+import userStore from "./store/user/model";
 
 const userData = ref<UserResult>({} as UserResult);
+const { checkMemberStatus, getFirstName } = userStore;
+//console.log(fetchUserData);
 
-onMounted(() => {
-  const fetchData = async () => {
-    const response = await userService.getUserProfile();
-    if (response) {
-      const {
-        data: { result },
-      } = response;
-      console.log(result);
-      console.log(Boolean(userData.value.is_member));
-      userData.value = result;
-    }
+/*onUpdated(() => {
+  const fetchStateSnapshot = () => {
+    const snapshot = getSnapshot(store);
+    console.log("snapshot =", snapshot);
   };
-  fetchData();
-});
+  fetchStateSnapshot();
+}); */
+
+console.log(userStore.getFirstName);
+
+/*watch(, () => {
+  console.log("globalStore =", globalStore.value.user.getFirstName);
+}); */
 </script>
 
 <template>
@@ -28,7 +31,7 @@ onMounted(() => {
       <img src="/icon/CUPSAA.png" class="w-10 h-10" />
       <div class="font-bold text-[20px]">CUPSAA</div>
     </div>
-    <div class="flex flex-row justify-start items-center gap-x-6" v-if="!userData.email">
+    <div class="flex flex-row justify-start items-center gap-x-6" v-if="!getFirstName">
       <router-link
         to="/login"
         class="w-[150px] text-center rounded-lg font-bold py-2 text-white bg-[rgba(244,179,187,1)] transition-[background-color] duration-200 hover:bg-[rgba(244,179,187,0.85)]"
@@ -43,7 +46,7 @@ onMounted(() => {
       >
     </div>
     <div class="flex flex-row justify-start items-center gap-x-2" v-else>
-      <div>{{ userData.first_name }}</div>
+      <div>{{ getFirstName }}</div>
       <div>|</div>
       <div class="flex flex-row justify-start items-center gap-x-1">
         <div v-if="parseInt(userData.is_member)">สามัญสมาชิก</div>
