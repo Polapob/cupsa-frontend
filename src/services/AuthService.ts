@@ -5,6 +5,7 @@ import { IErrorBase } from "../utils/axios/axiosError.type";
 import axiosErrorHandler from "../utils/axios/errorHandler";
 import qs from "qs";
 import localStorageService, { LocalstorageService } from "./LocalstorageService";
+import { sampleCallback } from "./utils";
 
 type ILoginBodyTypes = Record<"email" | "password", string>;
 
@@ -43,10 +44,6 @@ class AuthService {
     return !!token;
   }
 }
-
-export const sampleCallback = <T>(error: IErrorBase<T>) => {
-  console.log(error);
-};
 
 const authService = new AuthService(sampleCallback, localStorageService);
 export default authService;
