@@ -2,25 +2,27 @@
 import useSearchFriends from "../composables/useSearchFriends";
 import usePagination from "../composables/usePagination";
 import Navbar from "../components/Navbar/Navbar.vue";
-import { onMounted, onUnmounted, ref } from "vue";
-import calculateScrollData from "../utils/Composables/useScroll/calculateScrollData";
 import _ from "lodash";
 import useScroll from "../composables/useScroll";
-import userStore from "../store/user/model";
+import Observer from "mobx-vue-lite";
+import friendStore from "../store/friends/model";
+import { getSnapshot } from "mobx-state-tree";
 const [selectPage] = usePagination();
-const [friends, input, fetchAt] = useSearchFriends(selectPage);
-const [onScroll] = useScroll({ friends, selectPage, fetchAt });
+
+const [input, fetchAt] = useSearchFriends(selectPage);
+const { friends } = getSnapshot(friendStore);
+console.log(friends.length);
+const [] = useScroll({ numberOfFriends: friends.length, selectPage, fetchAt });
 
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
-
-console.log(userStore.getFirstName);
 </script>
 <template>
   <Navbar />
   <div class="flex flex-col justify-start items-center py-8 px-32 min-h-screen relative">
     <div class="hidden">{{ selectPage }}</div>
+    <div class="flex flex-col justify-center items-center">{{ friends.length }}</div>
     <div class="font-bold text-2xl">ค้นหาเพื่อนจากชื่อ หรือ นามสกุล</div>
     <div class="flex flex-row justify-start items-center border border-[#DFDFDF] w-[80%] mx-6 px-6 gap-x-4 bg-[#F3F3F3] my-5 rounded-md py-3">
       <img src="/icon/SearchIcon.svg" class="w-6 h-6" />
@@ -32,7 +34,7 @@ console.log(userStore.getFirstName);
         <div class="text-[rgba(0,0,0,0.4)] col-span-5">ID</div>
         <div class="text-[rgba(0,0,0,0.4)] col-span-2">STATUS</div>
       </div>
-      <div v-for="friend in friends.data" v-bind:key="friend.id" class="w-full">
+      <div v-for="friend in friends" v-bind:key="friend.id" class="w-full">
         <div class="grid grid-cols-12 justify-between items-center w-full py-4 rounded-xl w-f">
           <div class="col-span-5">{{ friend.fullName }}</div>
           <div class="col-span-5">{{ friend.id }}</div>

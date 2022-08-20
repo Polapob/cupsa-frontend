@@ -5,6 +5,7 @@ import validateLoginForm from "../utils/Login/validateLoginForm";
 import useEnterPress from "../composables/useEnterPress";
 import userStore from "../store/user/model";
 import Navbar from "../components/Navbar/Navbar.vue";
+import Observer from "mobx-vue-lite";
 const [handleOnSubmit, email, password] = useAuth();
 
 console.log(userStore.getFirstName, " ", userStore.checkMemberStatus);

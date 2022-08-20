@@ -1,7 +1,6 @@
 import _ from "lodash";
 import { onMounted, onUnmounted, Ref } from "vue";
 import calculateScrollData from "../utils/Composables/useScroll/calculateScrollData";
-import { FriendDataTypes } from "../utils/Composables/useSearchFriends/type";
 
 interface IUserScrollInterface {
   fetchAt: {
@@ -10,14 +9,14 @@ interface IUserScrollInterface {
     maxPage: number;
   };
   selectPage: Ref<number>;
-  friends: { data: FriendDataTypes[] };
+  numberOfFriends: number;
 }
 
-const useScroll = ({ friends, selectPage, fetchAt }: IUserScrollInterface) => {
+const useScroll = ({ numberOfFriends, selectPage, fetchAt }: IUserScrollInterface) => {
   function onScroll() {
     const { scrollPosition, bottomPosition, scrollRatio } = calculateScrollData();
 
-    if (scrollRatio >= 0.8 && friends.data.length > 0 && selectPage.value < fetchAt.maxPage - 1) {
+    if (scrollRatio >= 0.8 && numberOfFriends > 0 && selectPage.value < fetchAt.maxPage - 1) {
       selectPage.value++;
     }
   }
@@ -38,7 +37,7 @@ const useScroll = ({ friends, selectPage, fetchAt }: IUserScrollInterface) => {
     });
   });
 
-  return [onScroll] as const;
+  return [] as const;
 };
 
 export default useScroll;

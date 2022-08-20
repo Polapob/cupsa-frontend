@@ -1,7 +1,5 @@
 <script setup lang="ts"></script>
 
 <template>
-  <Observer>
-    <router-view />
-  </Observer>
+  <router-view />
 </template>

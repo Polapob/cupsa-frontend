@@ -8,7 +8,7 @@ const processFriendData = (responseData: SearchFriendsResponse) => {
 
   const data = Object.entries(friends).reduce((prevValue, currentValue) => {
     return [...prevValue, { id: currentValue[0], fullName: currentValue[1] }];
-  }, [] as FriendDataTypes[]);
+  }, [] as Array<FriendDataTypes>);
 
   return { data, paginationData };
 };

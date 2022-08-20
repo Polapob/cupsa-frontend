@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Navbar from "../components/Navbar/Navbar.vue";
+import Observer from "mobx-vue-lite";
 </script>
 <template>
   <Navbar />

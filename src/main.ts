@@ -10,4 +10,4 @@ import Observer from "mobx-vue-lite";
 
 library.add(faArrowLeft, faArrowRight, faUserSecret, faAnglesUp);
 
-createApp(App).component("font-awesome-icon", FontAwesomeIcon).use(router).use(VueQueryPlugin).use(Observer).mount("#app");
+createApp(App).component("font-awesome-icon", FontAwesomeIcon).use(router).use(VueQueryPlugin).mount("#app");
