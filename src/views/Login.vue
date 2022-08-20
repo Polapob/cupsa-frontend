@@ -4,6 +4,7 @@ import useAuth from "../composables/useAuth";
 import validateLoginForm from "../utils/Login/validateLoginForm";
 import useEnterPress from "../composables/useEnterPress";
 import userStore from "../store/user/model";
+import Navbar from "../components/Navbar/Navbar.vue";
 const [handleOnSubmit, email, password] = useAuth();
 
 console.log(userStore.getFirstName, " ", userStore.checkMemberStatus);
@@ -15,6 +16,7 @@ const isInputValid = computed(() => {
 </script>
 
 <template>
+  <Navbar />
   <div class="p-8 flex flex-col justify-center items-center gap-y-6 min-h-[90vh] bg-[url('/background/loginBackground.png')]">
     <div class="flex flex-col justify-center items-center w-[500px] gap-y-8" @keyup.enter="handleEnterpress()">
       <div>Member Status {{ userStore.checkMemberStatus }}</div>

@@ -5,6 +5,7 @@ import { ILoginResponse } from "../../utils/AuthService/type";
 import { LoginFormDataTypes } from "../../utils/Login/type";
 import { defaultUserData, LoadingStatus } from "./type";
 import { persist } from "mst-persist";
+import { observable } from "mobx";
 
 const UserResultModel = types.model({
   student_id: types.string,
@@ -115,7 +116,10 @@ const User = types
         self.loadingStatus = LoadingStatus.ERROR;
       }
     });
-    return { login };
+    const logout = () => {
+      self.userData = defaultUserData;
+    };
+    return { login, logout };
   });
 
 const userStore = User.create({

@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import useSearchFriends from "../composables/useSearchFriends";
 import usePagination from "../composables/usePagination";
+import Navbar from "../components/Navbar/Navbar.vue";
 import { onMounted, onUnmounted, ref } from "vue";
 import calculateScrollData from "../utils/Composables/useScroll/calculateScrollData";
 import _ from "lodash";
 import useScroll from "../composables/useScroll";
+import userStore from "../store/user/model";
 const [selectPage] = usePagination();
 const [friends, input, fetchAt] = useSearchFriends(selectPage);
 const [onScroll] = useScroll({ friends, selectPage, fetchAt });
@@ -12,8 +14,11 @@ const [onScroll] = useScroll({ friends, selectPage, fetchAt });
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
+
+console.log(userStore.getFirstName);
 </script>
 <template>
+  <Navbar />
   <div class="flex flex-col justify-start items-center py-8 px-32 min-h-screen relative">
     <div class="hidden">{{ selectPage }}</div>
     <div class="font-bold text-2xl">ค้นหาเพื่อนจากชื่อ หรือ นามสกุล</div>

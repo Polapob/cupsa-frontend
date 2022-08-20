@@ -4,6 +4,7 @@ import Login from "../views/Login.vue";
 import SearchFriends from "../views/SearchFriends.vue";
 import LoginGuard from "../views/LoginGuard.vue";
 import authService from "../services/AuthService";
+import userStore from "../store/user/model";
 
 const routes: RouteRecordRaw[] = [
   { path: "/", redirect: "/login" },
@@ -22,6 +23,8 @@ router.beforeEach((guard) => {
   const { path } = guard;
   if (!!GUARD_PATHS.find((eachPath) => path === eachPath)) {
     if (!authService.validateAuthToken()) {
+      const { logout } = userStore;
+      logout();
       return { path: "/login-guard", query: {} };
     }
     return true;
