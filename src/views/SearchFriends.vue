@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import useSearchFriends from "../composables/useSearchFriends";
-import Navbar from "../components/Navbar/Navbar.vue";
 import _ from "lodash";
 import useScroll from "../composables/useScroll";
 import Observer from "mobx-vue-lite";
@@ -16,7 +15,6 @@ const scrollToTop = () => {
 };
 </script>
 <template>
-  <Navbar />
   <div class="flex flex-col justify-start items-center py-8 px-32 min-h-screen relative">
     <div class="hidden">{{ selectPage + numberOfFriends }}</div>
     <div class="font-bold text-2xl">ค้นหาเพื่อนจากชื่อ หรือ นามสกุล</div>

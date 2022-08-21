@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import Navbar from "../components/Navbar/Navbar.vue";
 import Observer from "mobx-vue-lite";
 </script>
 <template>
-  <Navbar />
   <div class="flex flex-col justify-start items-center min-h-screen bg-gray-200 py-8 gap-y-4">
     <div class="font-bold text-2xl">The content is available for member only.</div>
     <router-link to="/login">

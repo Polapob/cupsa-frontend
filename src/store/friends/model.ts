@@ -35,6 +35,8 @@ const Friends = types
           return undefined;
         }
         const { data, paginationData } = processFriendData(response);
+
+        console.log("data = ", data);
         //const searchFriendResult =
         self.friends = cast(paginationData.from === 1 ? data : [...self.friends, ...data]);
         self.loadingStatus = LoadingStatus.FINISH;

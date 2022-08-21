@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import userStore from "../../store/user/model";
+import { storeToRefs } from "pinia";
+import useUserStore from "../../storeV2/user/useUserStore";
 
-const { checkMemberStatus, getFirstName, logout } = userStore;
+const { getFirstName, checkMemberStatus } = storeToRefs(useUserStore());
 </script>
 <template>
   <div class="flex flex-row w-full justify-between items-center gap-8 py-4 mb-4 px-8 bg-white">
