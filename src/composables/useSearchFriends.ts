@@ -1,4 +1,4 @@
-import { onMounted, onUnmounted, onUpdated, reactive, Ref, ref, watch } from "vue";
+import { onMounted, onUnmounted, onUpdated, reactive, Ref, ref, watch, nextTick } from "vue";
 import _ from "lodash";
 import friendStore from "../store/friends/model";
 
@@ -11,7 +11,7 @@ const useSearchFriends = (selectPage: Ref<number>) => {
 
   const debounceFn = _.debounce((text: string) => {
     debounceInput.value = text;
-  }, 300);
+  }, 1000);
 
   onMounted(async () => {
     const fetchFriends = await searchFriends(0);
@@ -26,6 +26,8 @@ const useSearchFriends = (selectPage: Ref<number>) => {
     numberOfFriends.value = friendStore.friends.length;
     fetchAt.page = 0;
     fetchAt.maxPage = Math.ceil(all / 30);
+
+    await nextTick();
   });
 
   onUpdated(async () => {
@@ -41,6 +43,7 @@ const useSearchFriends = (selectPage: Ref<number>) => {
       numberOfFriends.value = friendStore.friends.length;
       fetchAt.page = selectPage.value;
       fetchAt.maxPage = Math.ceil(all / 30);
+      await nextTick();
     }
   });
 
@@ -58,6 +61,7 @@ const useSearchFriends = (selectPage: Ref<number>) => {
     numberOfFriends.value = friendStore.friends.length;
     fetchAt.page = 0;
     fetchAt.maxPage = Math.ceil(all / 30);
+    await nextTick();
   });
 
   watch(input, async () => {

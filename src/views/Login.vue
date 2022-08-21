@@ -19,8 +19,7 @@ const isInputValid = computed(() => {
 <template>
   <Navbar />
   <div class="p-8 flex flex-col justify-center items-center gap-y-6 min-h-[90vh] bg-[url('/background/loginBackground.png')]">
-    <div class="flex flex-col justify-center items-center w-[500px] gap-y-8" @keyup.enter="handleEnterpress()">
-      <div>Member Status {{ userStore.checkMemberStatus }}</div>
+    <div class="flex flex-col justify-center items-center w-[500px] gap-y-8" @keyup.enter="handleEnterpress">
       <div class="text-3xl font-bold w-full text-start">Log In</div>
       <div class="flex flex-col justify-start items-center w-full gap-y-4">
         <div class="flex flex-col justify-center items-start w-full">
@@ -39,7 +38,7 @@ const isInputValid = computed(() => {
       <div class="relative min-w-[550px] flex justify-center items-center h-16">
         <button
           ref="buttonRef"
-          @click="() => handleOnSubmit(email, password)"
+          @click="handleOnSubmit(email, password)"
           :disabled="!isInputValid"
           :class="[
             'absolute py-3 rounded-xl text-[18px] text-white font-bold transition-all duration-200 w-[95%] bg-[rgba(244,179,187,1)]',

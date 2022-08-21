@@ -1,4 +1,4 @@
-import { flow, types } from "mobx-state-tree";
+import { flow, onSnapshot, types } from "mobx-state-tree";
 import { LoadingStatus } from "../user/type";
 import friendService from "../../services/FriendService";
 import { FriendDataTypes } from "../../utils/Composables/useSearchFriends/type";
@@ -48,6 +48,10 @@ const Friends = types
 
 const friendStore = Friends.create({
   loadingStatus: LoadingStatus.IDLE,
+});
+
+onSnapshot(friendStore, () => {
+  console.log("friends =", friendStore.friends);
 });
 
 export default friendStore;
