@@ -1,10 +1,8 @@
 import { ref } from "vue";
-import authService from "../services/AuthService";
 import router from "../router";
 import localStorageService from "../services/LocalstorageService";
-import userStore from "../store/user/model";
 import { LoginFormDataTypes } from "../utils/Login/type";
-import useUserStore from "../storeV2/user/useUserStore";
+import useUserStore from "../store/user/useUserStore";
 
 const useAuth = () => {
   const email = ref("");

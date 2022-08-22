@@ -1,67 +1,52 @@
-import { onMounted, onUnmounted, onUpdated, reactive, Ref, ref, watch, nextTick } from "vue";
+import { onMounted, onUnmounted, onUpdated, reactive, Ref, ref, watch } from "vue";
 import _ from "lodash";
-import friendStore from "../store/friends/model";
+import useFriendStore from "../store/friends/useFriendStore";
 
 const useSearchFriends = (selectPage: Ref<number>) => {
   const input = ref("");
   const debounceInput = ref("");
   const fetchAt = reactive({ input: "", page: 0, maxPage: 0 });
-  const numberOfFriends = ref(0);
-  const { searchFriends } = friendStore;
+  const { searchFriends } = useFriendStore();
 
   const debounceFn = _.debounce((text: string) => {
     debounceInput.value = text;
-  }, 1000);
+  }, 500);
 
   onMounted(async () => {
-    const fetchFriends = await searchFriends(0);
+    const { paginationData } = await searchFriends(0);
 
-    if (!fetchFriends) {
+    if (!paginationData) {
       return;
     }
 
-    const {
-      paginationData: { all },
-    } = fetchFriends;
-    numberOfFriends.value = friendStore.friends.length;
+    const { all } = paginationData;
     fetchAt.page = 0;
     fetchAt.maxPage = Math.ceil(all / 30);
-
-    await nextTick();
   });
 
   onUpdated(async () => {
     if (fetchAt.input === debounceInput.value && fetchAt.page !== selectPage.value) {
-      const fetchFriends = await searchFriends(selectPage.value, debounceInput.value);
-      if (!fetchFriends) {
+      fetchAt.page = selectPage.value;
+      const { paginationData } = await searchFriends(selectPage.value, debounceInput.value);
+      if (!paginationData) {
+        fetchAt.page = selectPage.value - 1;
         return;
       }
-
-      const {
-        paginationData: { all },
-      } = fetchFriends;
-      numberOfFriends.value = friendStore.friends.length;
-      fetchAt.page = selectPage.value;
+      const { all } = paginationData;
       fetchAt.maxPage = Math.ceil(all / 30);
-      await nextTick();
     }
   });
 
   watch(debounceInput, async () => {
     selectPage.value = 0;
-    const fetchFriends = await searchFriends(0, debounceInput.value);
-
-    if (!fetchFriends) {
+    fetchAt.page = 0;
+    fetchAt.input = debounceInput.value;
+    const { paginationData } = await searchFriends(0, debounceInput.value);
+    if (!paginationData) {
       return;
     }
-
-    const {
-      paginationData: { all },
-    } = fetchFriends;
-    numberOfFriends.value = friendStore.friends.length;
-    fetchAt.page = 0;
+    const { all } = paginationData;
     fetchAt.maxPage = Math.ceil(all / 30);
-    await nextTick();
   });
 
   watch(input, async () => {
@@ -69,10 +54,10 @@ const useSearchFriends = (selectPage: Ref<number>) => {
   });
 
   onUnmounted(() => {
-    debounceFn.cancel;
+    debounceFn.cancel();
   });
 
-  return [input, fetchAt, numberOfFriends] as const;
+  return [input, fetchAt] as const;
 };
 
 export default useSearchFriends;

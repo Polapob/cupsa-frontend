@@ -16,7 +16,6 @@ const useScroll = ({ numberOfFriends, selectPage, fetchAt }: IUserScrollInterfac
   function onScroll() {
     const { scrollPosition, bottomPosition, scrollRatio } = calculateScrollData();
     if (scrollRatio >= 0.8 && numberOfFriends.value > 0 && selectPage.value < fetchAt.maxPage - 1) {
-      console.log("selectPage =", selectPage.value);
       selectPage.value++;
     }
   }

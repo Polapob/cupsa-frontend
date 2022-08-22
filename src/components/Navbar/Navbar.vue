@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import useUserStore from "../../storeV2/user/useUserStore";
+import useUserStore from "../../store/user/useUserStore";
 
 const { getFirstName, checkMemberStatus } = storeToRefs(useUserStore());
 </script>

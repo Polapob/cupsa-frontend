@@ -3,12 +3,14 @@ import useSearchFriends from "../composables/useSearchFriends";
 import _ from "lodash";
 import useScroll from "../composables/useScroll";
 import Observer from "mobx-vue-lite";
-import friendStore from "../store/friends/model";
 import { ref } from "vue";
 import { getSnapshot } from "mobx-state-tree";
+import { storeToRefs } from "pinia";
+import useFriendStore from "../store/friends/useFriendStore";
 
 const selectPage = ref<number>(0);
-const [input, fetchAt, numberOfFriends] = useSearchFriends(selectPage);
+const [input, fetchAt] = useSearchFriends(selectPage);
+const { friends, numberOfFriends } = storeToRefs(useFriendStore());
 const [] = useScroll({ numberOfFriends: numberOfFriends, selectPage, fetchAt });
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -16,7 +18,7 @@ const scrollToTop = () => {
 </script>
 <template>
   <div class="flex flex-col justify-start items-center py-8 px-32 min-h-screen relative">
-    <div class="hidden">{{ selectPage + numberOfFriends }}</div>
+    <div class="hidden">{{ selectPage }}</div>
     <div class="font-bold text-2xl">ค้นหาเพื่อนจากชื่อ หรือ นามสกุล</div>
     <div class="flex flex-row justify-start items-center border border-[#DFDFDF] w-[80%] mx-6 px-6 gap-x-4 bg-[#F3F3F3] my-5 rounded-md py-3">
       <img src="/icon/SearchIcon.svg" class="w-6 h-6" />
@@ -28,7 +30,7 @@ const scrollToTop = () => {
         <div class="text-[rgba(0,0,0,0.4)] col-span-5">ID</div>
         <div class="text-[rgba(0,0,0,0.4)] col-span-2">STATUS</div>
       </div>
-      <div v-for="friend in friendStore.friends" v-bind:key="friend.id" class="w-full">
+      <div v-for="friend in friends" v-bind:key="friend.id" class="w-full">
         <div class="grid grid-cols-12 justify-between items-center w-full py-4 rounded-xl w-f">
           <div class="col-span-5">{{ friend.fullName }}</div>
           <div class="col-span-5">{{ friend.id }}</div>

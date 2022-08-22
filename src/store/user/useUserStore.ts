@@ -2,9 +2,7 @@ import { AxiosError } from "axios";
 import { defineStore } from "pinia";
 import { computed, onMounted, ref } from "vue";
 import authService from "../../services/AuthService";
-import userService from "../../services/UserService";
-import { defaultUserData, LoadingStatus } from "../../store/user/type";
-import { ILoginResponse, ILoginResult } from "../../utils/AuthService/type";
+import { defaultUserData, LoadingStatus } from "../type";
 import { LoginFormDataTypes } from "../../utils/Login/type";
 import { UserResult } from "../../utils/UserService/type";
 
