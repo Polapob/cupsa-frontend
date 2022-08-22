@@ -4,7 +4,6 @@ import _ from "lodash";
 import useScroll from "../composables/useScroll";
 import Observer from "mobx-vue-lite";
 import { ref } from "vue";
-import { getSnapshot } from "mobx-state-tree";
 import { storeToRefs } from "pinia";
 import useFriendStore from "../store/friends/useFriendStore";
 

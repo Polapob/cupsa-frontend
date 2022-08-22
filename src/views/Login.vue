@@ -3,10 +3,6 @@ import { computed } from "vue";
 import useAuth from "../composables/useAuth";
 import validateLoginForm from "../utils/Login/validateLoginForm";
 import useEnterPress from "../composables/useEnterPress";
-import Observer from "mobx-vue-lite";
-import useUserStore from "../storeV2/user/useUserStore";
-import { storeToRefs } from "pinia";
-
 const [handleOnSubmit, email, password] = useAuth();
 const [buttonRef, handleEnterpress] = useEnterPress();
 const isInputValid = computed(() => {

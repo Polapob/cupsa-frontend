@@ -3,7 +3,7 @@ import axios, { AxiosError } from "axios";
 import persist from "mst-persist";
 import router from "../../router";
 import localStorageService from "../../services/LocalstorageService";
-import userStore from "../../store/user/model";
+import useUserStore from "../../store/user/useUserStore";
 import { IErrorResponse } from "./axiosError.type";
 
 const apiClient = axios.create({
@@ -28,7 +28,7 @@ apiClient.interceptors.response.use(undefined, async (err: AxiosError<IErrorResp
   console.log("error =", err);
   if (err?.response?.status === 400 && err?.response?.data?.message.includes("token")) {
     localStorageService.set("authToken", "");
-    const { logout } = userStore;
+    const { logout } = useUserStore();
     logout();
     window.location.reload();
     router.push("/login");

@@ -4,7 +4,6 @@ import Login from "../views/Login.vue";
 import SearchFriends from "../views/SearchFriends.vue";
 import LoginGuard from "../views/LoginGuard.vue";
 import authService from "../services/AuthService";
-import userStore from "../store/user/model";
 
 const routes: RouteRecordRaw[] = [
   { path: "/", redirect: "/login" },
