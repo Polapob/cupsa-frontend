@@ -2,7 +2,6 @@
 import useSearchFriends from "../composables/useSearchFriends";
 import _ from "lodash";
 import useScroll from "../composables/useScroll";
-import Observer from "mobx-vue-lite";
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import useFriendStore from "../store/friends/useFriendStore";
