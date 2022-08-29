@@ -7,7 +7,7 @@ import authService from "../services/AuthService";
 import useUserStore from "../store/user/useUserStore";
 
 const routes: RouteRecordRaw[] = [
-  { path: "/", redirect: "/login" },
+  { path: "/", redirect: { path: "/login", query: {} } },
   { path: "/login", component: Login },
   { path: "/search-friends", component: SearchFriends },
   { path: "/login-guard", component: LoginGuard },
