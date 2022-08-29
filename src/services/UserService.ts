@@ -2,7 +2,7 @@ import apiClient from "../utils/axios/axios";
 import { IErrorBase } from "../utils/axios/axiosError.type";
 import axiosErrorHandler from "../utils/axios/errorHandler";
 import { GetUserProfileResponse, UpdateUserBodyTypes } from "../utils/UserService/type";
-import { sampleCallback } from "./AuthService";
+import { sampleCallback } from "./utils";
 
 class UserService {
   private readonly callback: <T>(error: IErrorBase<T>) => void;

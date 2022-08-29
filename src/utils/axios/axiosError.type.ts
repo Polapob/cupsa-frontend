@@ -5,7 +5,7 @@ export enum ErrorTypes {
   OTHER_ERROR = "OTHER_ERROR",
 }
 
-export interface IErrorBase<T> {
+export interface IErrorBase<T = undefined> {
   error: Error | AxiosError<T>;
   type: "axios-error" | "other-error";
 }
@@ -14,7 +14,12 @@ export interface IAxiosError<T> extends IErrorBase<T> {
   error: AxiosError<T>;
   type: "axios-error";
 }
-export interface IOtherError<T> extends IErrorBase<T> {
+export interface IOtherError extends IErrorBase {
   error: Error;
   type: "other-error";
+}
+
+export interface IErrorResponse {
+  message: string;
+  success: boolean;
 }

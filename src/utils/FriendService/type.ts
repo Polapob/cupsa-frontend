@@ -1,6 +1,18 @@
-export type FriendResultTypes = Record<string, string>;
+import { AxiosResponse } from "axios";
 
-export interface IGetFriendsInterface {
+export type FriendResultTypes = Record<string, string>;
+export type PaginationMetadataTypes = {
+  from: number;
+  to: number;
+  all: number;
+};
+
+export interface ISearchFriendsInterface {
   success: boolean;
-  result: FriendResultTypes;
+  result: {
+    data: FriendResultTypes;
+    struct: PaginationMetadataTypes;
+  };
 }
+
+export type SearchFriendsResponse = AxiosResponse<ISearchFriendsInterface, any>;

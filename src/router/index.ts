@@ -1,16 +1,15 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, RouteRecordRaw, RouterOptions } from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import SearchFriends from "../views/SearchFriends.vue";
-import CheckMemberStatus from "../views/CheckMemberStatus.vue";
 import LoginGuard from "../views/LoginGuard.vue";
 import authService from "../services/AuthService";
+import useUserStore from "../store/user/useUserStore";
 
-const routes = [
-  { path: "/", component: Home },
+const routes: RouteRecordRaw[] = [
+  { path: "/", redirect: "/login" },
   { path: "/login", component: Login },
   { path: "/search-friends", component: SearchFriends },
-  { path: "/check-member-status", component: CheckMemberStatus },
   { path: "/login-guard", component: LoginGuard },
 ];
 
@@ -23,8 +22,9 @@ const GUARD_PATHS = ["/check-member-status", "/search-friends"];
 router.beforeEach((guard) => {
   const { path } = guard;
   if (!!GUARD_PATHS.find((eachPath) => path === eachPath)) {
-    console.log("pass-this =", path);
     if (!authService.validateAuthToken()) {
+      const { logout } = useUserStore();
+      logout();
       return { path: "/login-guard", query: {} };
     }
     return true;

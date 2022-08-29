@@ -1,23 +1,51 @@
 <script setup lang="ts">
-import useAuth from "../composables/useAuth.js";
+import { computed } from "vue";
+import useAuth from "../composables/useAuth";
+import validateLoginForm from "../utils/Login/validateLoginForm";
+import useEnterPress from "../composables/useEnterPress";
 const [handleOnSubmit, email, password] = useAuth();
+const [buttonRef, handleEnterpress] = useEnterPress();
+const isInputValid = computed(() => {
+  return validateLoginForm({ email: email.value, password: password.value });
+});
 </script>
 
 <template>
-  <div class="p-8 flex flex-col justify-start items-center gap-y-6 bg-gray-200 min-h-screen">
-    <div class="flex flex-col justify-center items-start">
-      <div class="text-xl font-bold my-2 border-blue-600 border-b-2">Email</div>
-      <input v-model.trim.lazy="email" class="focus:outline-none border-2 text py-2 px-4 rounded-lg w-[300px]" />
+  <div class="p-8 flex flex-col justify-center items-center gap-y-6 min-h-[90vh] bg-[url('/background/loginBackground.png')]">
+    <div class="flex flex-col justify-center items-center w-[500px] gap-y-8" @keyup.enter="handleEnterpress">
+      <div class="text-3xl font-bold w-full text-start">Log In</div>
+      <div class="flex flex-col justify-start items-center w-full gap-y-4">
+        <div class="flex flex-col justify-center items-start w-full">
+          <input v-model.trim.lazy="email" class="focus:outline-none border border-[#DFDFDF] text p-4 rounded-lg w-full bg-[#F3F3F3]" placeholder="Email" />
+        </div>
+        <div class="flex flex-col justify-center items-start w-full">
+          <input
+            type="password"
+            v-model.trim.lazy="password"
+            class="focus:outline-none border border-[#DFDFDF] p-4 rounded-lg w-full bg-[#F3F3F3]"
+            placeholder="Password"
+          />
+        </div>
+      </div>
+
+      <div class="relative min-w-[550px] flex justify-center items-center h-16">
+        <button
+          ref="buttonRef"
+          @click="
+            async () => {
+              // await login({ email, password });
+              handleOnSubmit({ email, password });
+            }
+          "
+          :disabled="!isInputValid"
+          :class="[
+            'absolute py-3 rounded-xl text-[18px] text-white font-bold transition-all duration-200 w-[95%] bg-[rgba(244,179,187,1)]',
+            isInputValid ? 'hover:bg-opacity-80 hover:py-[14px] hover:text-[20px] hover:w-full' : 'disabled:bg-gray-500',
+          ]"
+        >
+          Log In
+        </button>
+      </div>
     </div>
-    <div class="flex flex-col justify-center items-start">
-      <div class="text-xl font-bold my-2 border-blue-600 border-b-2">Password</div>
-      <input type="password" v-model.trim.lazy="password" class="focus:outline-none border-2 text py-2 px-4 rounded-lg w-[300px]" />
-    </div>
-    <button
-      @click="() => handleOnSubmit(email, password)"
-      class="border-2 w-[500px] my-4 py-2 rounded-xl bg-blue-400 hover:bg-opacity-80 font-bold transition-all hover:text-[18px] hover:py-[10px] hover:w-[520px] duration-200"
-    >
-      Login
-    </button>
   </div>
 </template>
