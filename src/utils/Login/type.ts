@@ -1,1 +1,1 @@
-export type LoginFormDataTypes = Record<"email" | "password", string>;
+export type LoginForm = Record<"username" | "password", string>;

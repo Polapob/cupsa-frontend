@@ -3,11 +3,8 @@ import { computed } from "vue";
 import useAuth from "../composables/useAuth";
 import validateLoginForm from "../utils/Login/validateLoginForm";
 import useEnterPress from "../composables/useEnterPress";
-const [handleOnSubmit, email, password] = useAuth();
+const [handleOnSubmit, username, password] = useAuth();
 const [buttonRef, handleEnterpress] = useEnterPress();
-const isInputValid = computed(() => {
-  return validateLoginForm({ email: email.value, password: password.value });
-});
 </script>
 
 <template>
@@ -16,7 +13,11 @@ const isInputValid = computed(() => {
       <div class="text-3xl font-bold w-full text-start">Log In</div>
       <div class="flex flex-col justify-start items-center w-full gap-y-4">
         <div class="flex flex-col justify-center items-start w-full">
-          <input v-model.trim.lazy="email" class="focus:outline-none border border-[#DFDFDF] text p-4 rounded-lg w-full bg-[#F3F3F3]" placeholder="Email" />
+          <input
+            v-model.trim.lazy="username"
+            class="focus:outline-none border border-[#DFDFDF] text p-4 rounded-lg w-full bg-[#F3F3F3]"
+            placeholder="Username or Email"
+          />
         </div>
         <div class="flex flex-col justify-center items-start w-full">
           <input
@@ -34,13 +35,12 @@ const isInputValid = computed(() => {
           @click="
             async () => {
               // await login({ email, password });
-              handleOnSubmit({ email, password });
+              handleOnSubmit({ username, password });
             }
           "
-          :disabled="!isInputValid"
           :class="[
             'absolute py-3 rounded-xl text-[18px] text-white font-bold transition-all duration-200 w-[95%] bg-[rgba(244,179,187,1)]',
-            isInputValid ? 'hover:bg-opacity-80 hover:py-[14px] hover:text-[20px] hover:w-full' : 'disabled:bg-gray-500',
+            'hover:bg-opacity-80 hover:py-[14px] hover:text-[20px] hover:w-full',
           ]"
         >
           Log In

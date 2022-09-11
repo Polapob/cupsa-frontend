@@ -3,8 +3,9 @@ import { defineStore } from "pinia";
 import { computed, onMounted, ref } from "vue";
 import authService from "../../services/AuthService";
 import { defaultUserData, LoadingStatus } from "../type";
-import { LoginFormDataTypes } from "../../utils/Login/type";
 import { UserResult } from "../../utils/UserService/type";
+import { LoginForm } from "../../utils/Login/type";
+import router from "../../router";
 
 const useUserStore = defineStore("user", () => {
   const userData = ref<UserResult>(defaultUserData);
@@ -18,7 +19,7 @@ const useUserStore = defineStore("user", () => {
     }
   });
 
-  const login = async (loginBody: LoginFormDataTypes) => {
+  const login = async (loginBody: LoginForm) => {
     try {
       loadingStatus.value = LoadingStatus.LOADING;
       const response = await authService.login(loginBody);
@@ -40,16 +41,23 @@ const useUserStore = defineStore("user", () => {
   const logout = () => {
     userData.value = defaultUserData;
     localStorage.setItem("userData", "");
+    localStorage.setItem("authToken", "");
+    router.push("/");
   };
 
   const checkMemberStatus = computed(() => {
     return Boolean(parseInt(userData.value.is_member));
   });
+
+  const isUserLogin = computed(() => {
+    return userData.value.first_name !== "";
+  });
+
   const getFirstName = computed(() => {
     return userData.value.first_name;
   });
 
-  return { userData, loadingStatus, errorMessage, getFirstName, checkMemberStatus, login, logout };
+  return { userData, loadingStatus, errorMessage, getFirstName, checkMemberStatus, isUserLogin, login, logout };
 });
 
 export default useUserStore;
@@ -61,7 +69,7 @@ export default useUserStore;
     errorMessage: "",
   }),
   actions: {
-    async login(loginBody: LoginFormDataTypes) {
+    async login(loginBody: LoginFormTypes) {
       try {
         this.loadingStatus = LoadingStatus.LOADING;
         const response = await authService.login(loginBody);

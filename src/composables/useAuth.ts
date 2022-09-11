@@ -1,14 +1,14 @@
 import { ref } from "vue";
 import router from "../router";
 import localStorageService from "../services/LocalstorageService";
-import { LoginFormDataTypes } from "../utils/Login/type";
+import { LoginForm } from "../utils/Login/type";
 import useUserStore from "../store/user/useUserStore";
 
 const useAuth = () => {
-  const email = ref("");
+  const username = ref("");
   const password = ref("");
   const { login } = useUserStore();
-  const handleOnSubmit = async (formData: LoginFormDataTypes) => {
+  const handleOnSubmit = async (formData: LoginForm) => {
     try {
       const { token } = await login(formData);
       if (token) {
@@ -20,6 +20,6 @@ const useAuth = () => {
     }
   };
 
-  return [handleOnSubmit, email, password] as const;
+  return [handleOnSubmit, username, password] as const;
 };
 export default useAuth;
