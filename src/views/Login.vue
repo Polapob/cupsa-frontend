@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed } from "vue";
 import useAuth from "../composables/useAuth";
-import validateLoginForm from "../utils/Login/validateLoginForm";
 import useEnterPress from "../composables/useEnterPress";
-const [handleOnSubmit, username, password] = useAuth();
+import LoadingModalVue from "../components/Modal/LoadingModal.vue";
+
+const { handleOnSubmit, username, password, isLoading, isError } = useAuth();
 const [buttonRef, handleEnterpress] = useEnterPress();
 </script>
 
@@ -34,18 +34,20 @@ const [buttonRef, handleEnterpress] = useEnterPress();
           ref="buttonRef"
           @click="
             async () => {
-              // await login({ email, password });
               handleOnSubmit({ username, password });
             }
           "
           :class="[
-            'absolute py-3 rounded-xl text-[18px] text-white font-bold transition-all duration-200 w-[95%] bg-[rgba(244,179,187,1)]',
+            'absolute py-3 rounded-xl text-[18px] text-white font-bold transition-all duration-200 w-[95%] bg-[#f4b3bb]',
             'hover:bg-opacity-80 hover:py-[14px] hover:text-[20px] hover:w-full',
           ]"
         >
           Log In
         </button>
       </div>
+    </div>
+    <div v-if="isLoading">
+      <LoadingModalVue />
     </div>
   </div>
 </template>

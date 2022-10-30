@@ -8,7 +8,7 @@
   width: 150px;
   height: 150px;
   border: 15px solid #dddddd;
-  border-top-color: #009578;
+  border-top-color: #f4b3bb;
   border-radius: 50%;
   animation: loading 1s linear infinite;
 }

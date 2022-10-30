@@ -6,6 +6,9 @@ import { defaultUserData, LoadingStatus } from "../type";
 import { UserResult } from "../../utils/UserService/type";
 import { LoginForm } from "../../utils/Login/type";
 import router from "../../router";
+import { POSITION, useToast } from "vue-toastification";
+
+const toast = useToast();
 
 const useUserStore = defineStore("user", () => {
   const userData = ref<UserResult>(defaultUserData);
@@ -20,22 +23,18 @@ const useUserStore = defineStore("user", () => {
   });
 
   const login = async (loginBody: LoginForm) => {
-    try {
-      loadingStatus.value = LoadingStatus.LOADING;
-      const response = await authService.login(loginBody);
-      if (!response) {
-        return { token: "" };
-      }
-      userData.value = response.data.result;
-      localStorage.setItem("userData", JSON.stringify(response.data.result));
-      loadingStatus.value = LoadingStatus.FINISH;
-      return { token: response.data.token };
-    } catch (err) {
-      const axiosError = err as AxiosError<{ message: string }>;
+    loadingStatus.value = LoadingStatus.LOADING;
+    const response = await authService.login(loginBody);
+    if (!response) {
       loadingStatus.value = LoadingStatus.ERROR;
-      errorMessage.value = axiosError.response?.data.message || "";
+      // errorMessage.value = "Invalid username or email or password Try again.";
+      toast.error("Invalid username or email or password Try again.", { position: POSITION.TOP_CENTER, timeout: 3000 });
       return { token: "" };
     }
+    userData.value = response.data.result;
+    localStorage.setItem("userData", JSON.stringify(response.data.result));
+    loadingStatus.value = LoadingStatus.FINISH;
+    return { token: response.data.token };
   };
 
   const logout = () => {
