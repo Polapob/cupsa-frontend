@@ -6,9 +6,7 @@ import axiosErrorHandler from "../utils/axios/errorHandler";
 import qs from "qs";
 import localStorageService, { LocalstorageService } from "./LocalstorageService";
 import { sampleCallback } from "./utils";
-
-type ILoginBodyTypes = Record<"email" | "password", string>;
-
+import { LoginForm } from "../utils/Login/type";
 class AuthService {
   private readonly callback: <T>(error: IErrorBase<T>) => void;
   private readonly localStorageService: LocalstorageService;
@@ -17,13 +15,13 @@ class AuthService {
     this.localStorageService = localStorageService;
   }
 
-  async login(body: ILoginBodyTypes) {
+  async login(loginForm: LoginForm) {
     try {
-      const { email, password } = body;
+      const { username, password } = loginForm;
       const res = await apiClient.post<ILoginResponse>(
         "/lineApi/login",
         qs.stringify({
-          auth: base64EncodedBody(email, password),
+          auth: base64EncodedBody(username, password),
         }),
         {
           headers: {

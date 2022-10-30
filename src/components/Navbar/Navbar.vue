@@ -2,7 +2,9 @@
 import { storeToRefs } from "pinia";
 import useUserStore from "../../store/user/useUserStore";
 
-const { getFirstName, checkMemberStatus } = storeToRefs(useUserStore());
+const userStore = useUserStore();
+const { getFirstName, checkMemberStatus, isUserLogin } = storeToRefs(userStore);
+const { logout } = userStore;
 </script>
 <template>
   <div class="flex flex-row w-full justify-between items-center gap-8 py-4 mb-4 px-8 bg-white">
@@ -32,6 +34,7 @@ const { getFirstName, checkMemberStatus } = storeToRefs(useUserStore());
         <div v-else>ไม่เป็นสามัญสมาชิก</div>
       </div>
       <div :class="['p-[4.5px] rounded-full', checkMemberStatus ? 'bg-green-500' : 'bg-[#F14C80]']"></div>
+      <button v-if="isUserLogin" @click="logout" class="ml-4 px-4 py-2 bg-red-500 text-white font-bold rounded-[12px]">Logout</button>
     </div>
   </div>
 </template>

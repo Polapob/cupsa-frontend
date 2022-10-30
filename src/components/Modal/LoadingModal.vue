@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import Loading from "../Loading/Loading.vue";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner.vue";
 </script>
 <template>
-  <div class="flex justify-center items-start w-screen fixed overflow-y-hidden h-screen">
-    <div class="flex flex-col justify-center items-center gap-y-8 w-[500px] h-[350px] rounded-2xl bg-white bg-opacity-80 backdrop-blur-sm">
-      <div class="font-bold text-[24px]">Waiting for response</div>
-      <Loading />
+  <div class="fixed inset-0 flex justify-center items-center rounded-2xl">
+    <div class="flex flex-col items-center justify-center w-[350px] h-[350px] bg-white rounded-2xl gap-y-8 backdrop-blur-xl">
+      <div class="font-bold text-[20px]">Waiting for a few seconds</div>
+      <LoadingSpinner />
     </div>
   </div>
 </template>
