@@ -11,7 +11,7 @@ import Toast, { PluginOptions } from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
 const pinia = createPinia();
-const options: PluginOptions = {};
+const options: PluginOptions = { maxToasts: 3 };
 
 library.add(faArrowLeft, faArrowRight, faUserSecret, faAnglesUp);
 
