@@ -32,6 +32,7 @@ const [buttonRef, handleEnterpress] = useEnterPress();
       <div class="relative min-w-[550px] flex justify-center items-center h-16">
         <button
           ref="buttonRef"
+          :disabled="isLoading"
           @click="
             async () => {
               handleOnSubmit({ username, password });
