@@ -27,11 +27,11 @@ const useUserStore = defineStore("user", () => {
     const response = await authService.login(loginBody);
     if (!response) {
       loadingStatus.value = LoadingStatus.ERROR;
-      // errorMessage.value = "Invalid username or email or password Try again.";
       toast.error("Invalid username or email or password Try again.", { position: POSITION.TOP_CENTER, timeout: 3000 });
       return { token: "" };
     }
     userData.value = response.data.result;
+    toast.success("Successfully Login", { position: POSITION.TOP_CENTER, timeout: 3000 });
     localStorage.setItem("userData", JSON.stringify(response.data.result));
     loadingStatus.value = LoadingStatus.FINISH;
     return { token: response.data.token };
