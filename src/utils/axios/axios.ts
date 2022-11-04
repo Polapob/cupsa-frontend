@@ -1,6 +1,7 @@
 import { data } from "autoprefixer";
 import axios, { AxiosError } from "axios";
 import persist from "mst-persist";
+import { useRouter } from "vue-router";
 import router from "../../router";
 import localStorageService from "../../services/LocalstorageService";
 import useUserStore from "../../store/user/useUserStore";
@@ -29,6 +30,7 @@ apiClient.interceptors.response.use(undefined, async (err: AxiosError<IErrorResp
   if (err?.response?.status === 400 && err?.response?.data?.message.includes("token")) {
     localStorageService.set("authToken", "");
     const { logout } = useUserStore();
+    const router = useRouter()
     logout();
     window.location.reload();
     router.push("/login");
