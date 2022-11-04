@@ -5,8 +5,8 @@ import authService from "../../services/AuthService";
 import { defaultUserData, LoadingStatus } from "../type";
 import { UserResult } from "../../utils/UserService/type";
 import { LoginForm } from "../../utils/Login/type";
-import router from "../../router";
 import { POSITION, useToast } from "vue-toastification";
+import { useRouter } from "vue-router";
 
 const toast = useToast();
 
@@ -14,6 +14,7 @@ const useUserStore = defineStore("user", () => {
   const userData = ref<UserResult>(defaultUserData);
   const loadingStatus = ref<LoadingStatus>(LoadingStatus.IDLE);
   const errorMessage = ref<string>("");
+  const router = useRouter()
 
   onMounted(() => {
     const localstorageUser = localStorage.getItem("userData");
