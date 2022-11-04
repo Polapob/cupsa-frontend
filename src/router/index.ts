@@ -7,10 +7,10 @@ import authService from "../services/AuthService";
 import useUserStore from "../store/user/useUserStore";
 
 const routes: RouteRecordRaw[] = [
-  { path: "/", redirect: { path: "/login", query: {} } },
-  { path: "/login", component: Login },
-  { path: "/search-friends", component: SearchFriends },
-  { path: "/login-guard", component: LoginGuard },
+  { path: '/',name:"Login2",component: Login},
+  { path: "/login",name:"Login", component: Login },
+  { path: "/search-friends",name:"Search friends", component: SearchFriends },
+  {path:'/login-guard',name:"Login guard",component:LoginGuard}
 ];
 
 const router = createRouter({
@@ -18,7 +18,7 @@ const router = createRouter({
   routes,
 });
 
-const GUARD_PATHS = ["/check-member-status", "/search-friends"];
+const GUARD_PATHS = [ "/search-friends"];
 router.beforeEach((guard) => {
   const { path } = guard;
   if (!!GUARD_PATHS.find((eachPath) => path === eachPath)) {

@@ -1,5 +1,5 @@
 import { computed, ComputedRef, Ref, ref } from "vue";
-import router from "../router";
+import { useRouter } from "vue-router";
 import localStorageService from "../services/LocalstorageService";
 import { LoginForm } from "../utils/Login/type";
 import useUserStore from "../store/user/useUserStore";
@@ -22,6 +22,7 @@ const useAuth = (): IAuthResult => {
   const { login } = userStore;
   const isLoading = computed(() => loadingStatus.value === LoadingStatus.LOADING);
   const isError = computed(() => loadingStatus.value === LoadingStatus.ERROR);
+  const router = useRouter()
   const handleOnSubmit = async (formData: LoginForm) => {
     try {
       const { token } = await login(formData);
