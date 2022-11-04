@@ -11,9 +11,7 @@ export default ({ mode }) => {
 
   return defineConfig({
     plugins: [vue()],
-    server: {
-      port: parseInt(process.env.VITE_FRONTEND_LOCALHOST_PORT),
-    },
+    base:'',
     build: {
       commonjsOptions: {
         esmExternals: true,
