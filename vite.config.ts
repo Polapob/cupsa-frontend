@@ -11,7 +11,7 @@ export default ({ mode }) => {
 
   return defineConfig({
     plugins: [vue()],
-    base: "",
+    base: "./",
     server: {
       port: 3000,
     },
