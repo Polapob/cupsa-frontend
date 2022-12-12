@@ -6,12 +6,12 @@ import { useRoute, useRouter } from "vue-router";
 import useUserStore from "../store/user/useUserStore";
 
 const { handleOnSubmit, username, password, isLoading, isError } = useAuth();
-const {isUserLogin} = useUserStore()
+const { isUserLogin } = useUserStore();
 const [buttonRef, handleEnterpress] = useEnterPress();
-const router = useRouter()
+const router = useRouter();
 
-if (isUserLogin){
-  router.push('/search-friends')
+if (isUserLogin) {
+  router.push("/search-friends");
 }
 </script>
 
