@@ -32,23 +32,22 @@ const scrollToTop = () => {
         </svg>
       </button>
     </div>
-    <div class="flex flex-col justify-center items-start gap-y-4 my-3 w-[80%]">
-      <div class="grid grid-cols-12 justify-start items-center w-full border-b border-b-[#DFDFDF] py-4 my-2">
-        <div class="text-[rgba(0,0,0,0.4)] col-span-5">NAME</div>
-        <div class="text-[rgba(0,0,0,0.4)] col-span-5">ID</div>
-        <div class="text-[rgba(0,0,0,0.4)] col-span-2">STATUS</div>
+    <div class="flex flex-col justify-center items-center gap-y-4 my-3 w-[80%]">
+      <div class="flex flex-row justify-between items-center w-full border-b border-b-[#DFDFDF] py-4 my-2 text-[rgba(0,0,0,0.4)]">
+        <div class="w-[150px]">NAME</div>
+        <div class="">ID</div>
+        <div />
       </div>
       <div v-if="isEmptyFriend" class="w-full flex flex-col justify-center items-center">
-        <div class="text-2xl">Sorry we didn't find any friends in the database.</div>
+        <div class="text-[20px] font-bold">Sorry we didn't find any friends in the database.</div>
       </div>
       <div v-for="friend in friends" v-bind:key="friend.id" class="w-full">
-        <div class="grid grid-cols-12 justify-between items-center w-full py-4 rounded-xl w-f">
-          <div class="col-span-5">{{ friend.fullName }}</div>
-          <div class="col-span-5">{{ friend.id }}</div>
-          <div class="col-span-2 flex flex-row justify-start items-center gap-x-[14px]">
-            <div class="p-[4.5px] rounded-full bg-[#15C183]"></div>
-            <div>สามัญสมาชิก</div>
-          </div>
+        <div class="flex justify-between items-center w-full py-4 rounded-xl">
+          <div class="w-[250px]">{{ friend.fullName }}</div>
+          <div class="">{{ friend.generationId }}</div>
+          <router-link :to="{ path: `view-friend/${friend.id}` }">
+            <button class="rounded-xl px-8 py-2 bg-blue-500 text-white font-semibold hover:bg-opacity-80 transition-colors duration-200">View</button>
+          </router-link>
         </div>
       </div>
     </div>
