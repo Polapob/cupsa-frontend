@@ -19,11 +19,13 @@ onMounted(async () => {
 <template>
   <div class="flex flex-col justify-center items-center">
     <div class="font-bold text-[20px]">ข้อมูลที่ได้จากการค้นหาข้อมูล</div>
-    <div>Triamudom ID = {{ friendInfo.tu_id && friendInfo.tu_id.split("-").slice(-1).toString() }}</div>
-    <div>เตรียมอุดมรุ่นที่ {{ friendInfo.tu_id && friendInfo.tu_id.split("-")[0].toString() }}</div>
-    <div v-if="friendInfo.is_member === '1'">เป็นสามัญสมาชิก</div>
-    <div v-else>ไม่เป็นสามัญสมาชิก</div>
-    <div>ชื่อ: {{ friendInfo.first_name }}</div>
-    <div>นามสกุล: {{ friendInfo.last_name }}</div>
+    <div class="flex flex-col justify-center items-center" v-if="friendInfo.tu_id">
+      <div>Triamudom ID = {{ friendInfo.tu_id && friendInfo.tu_id.split("-").slice(-1).toString() }}</div>
+      <div>เตรียมอุดมรุ่นที่ {{ friendInfo.tu_id && friendInfo.tu_id.split("-")[0].toString() }}</div>
+      <div v-if="friendInfo.is_member === '1'">เป็นสามัญสมาชิก</div>
+      <div v-else>ไม่เป็นสามัญสมาชิก</div>
+      <div>ชื่อ: {{ friendInfo.first_name }}</div>
+      <div>นามสกุล: {{ friendInfo.last_name }}</div>
+    </div>
   </div>
 </template>
