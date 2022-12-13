@@ -26,11 +26,13 @@ export interface ViewFriendResponse {
   student_id: string;
   tu_id: string;
   is_member: string;
-  first_name: string | null;
-  last_name: string | null;
-  sex: string | null;
-  prefix: string | null;
-  generation_id: string | null;
+  first_name: string;
+  last_name: string;
+  first_name_eng: string;
+  last_name_eng: string;
+  sex: string;
+  prefix: string;
+  generation_id: string;
 }
 
 export interface IViewFriendInterface {
