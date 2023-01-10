@@ -18,12 +18,12 @@ if (isUserLogin) {
 <template>
   <div class="p-8 flex flex-col justify-center items-center gap-y-6 min-h-[90vh] bg-[url('/background/loginBackground.png')]">
     <div class="flex flex-col justify-center items-center lg:w-[500px] w-full gap-y-8" @keyup.enter="handleEnterpress">
-      <div class="text-3xl font-bold w-full text-start">Log In</div>
+      <div class="sm:text-3xl text-2xl font-bold w-full text-start">Log In</div>
       <div class="flex flex-col justify-start items-center w-full gap-y-4">
         <div class="flex flex-col justify-center items-start w-full">
           <input
             v-model.trim.lazy="username"
-            class="focus:outline-none border border-[#DFDFDF] text p-4 rounded-lg w-full bg-[#F3F3F3]"
+            class="focus:outline-none border border-[#DFDFDF] sm:text-[16px] text-[14px] p-4 rounded-lg w-full bg-[#F3F3F3]"
             placeholder="Username or Email"
           />
         </div>
@@ -31,7 +31,7 @@ if (isUserLogin) {
           <input
             type="password"
             v-model.trim.lazy="password"
-            class="focus:outline-none border border-[#DFDFDF] p-4 rounded-lg w-full bg-[#F3F3F3]"
+            class="focus:outline-none border border-[#DFDFDF] sm:text-[16px] text-[14px] p-4 rounded-lg w-full bg-[#F3F3F3]"
             placeholder="Password"
           />
         </div>
@@ -47,7 +47,7 @@ if (isUserLogin) {
             }
           "
           :class="[
-            'absolute py-3 rounded-xl text-[18px] text-white font-bold transition-all duration-200 w-[95%] bg-[#f4b3bb]',
+            'absolute py-3 rounded-xl sm:text-[18px] text-[16px] text-white font-bold transition-all duration-200 w-[95%] bg-[#f4b3bb]',
             'hover:bg-opacity-80 hover:py-[14px] hover:text-[20px] hover:w-full',
           ]"
         >
