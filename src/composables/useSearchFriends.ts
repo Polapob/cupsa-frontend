@@ -2,7 +2,7 @@ import { onMounted, onUnmounted, onUpdated, reactive, Ref, ref, watch } from "vu
 import _ from "lodash";
 import useFriendStore from "../store/friends/useFriendStore";
 
-const useSearchFriends = (selectPage: Ref<number>) => {
+const useSearchFriends = (selectPage: Ref<number>, includeAll: Ref<boolean>) => {
   const input = ref("");
   const debounceInput = ref("");
   const fetchAt = reactive({ input: "", page: 0, maxPage: 0 });
@@ -38,6 +38,18 @@ const useSearchFriends = (selectPage: Ref<number>) => {
   });
 
   watch(debounceInput, async () => {
+    selectPage.value = 0;
+    fetchAt.page = 0;
+    fetchAt.input = debounceInput.value;
+    const { paginationData } = await searchFriends(0, debounceInput.value);
+    if (!paginationData) {
+      return;
+    }
+    const { all } = paginationData;
+    fetchAt.maxPage = Math.ceil(all / 30);
+  });
+
+  watch(includeAll, async () => {
     selectPage.value = 0;
     fetchAt.page = 0;
     fetchAt.input = debounceInput.value;

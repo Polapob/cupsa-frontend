@@ -5,9 +5,11 @@ import useScroll from "../composables/useScroll";
 import { computed, ref } from "vue";
 import { storeToRefs } from "pinia";
 import useFriendStore from "../store/friends/useFriendStore";
+import useUserStore from "../store/user/useUserStore";
 
 const selectPage = ref<number>(0);
-const [input, fetchAt] = useSearchFriends(selectPage);
+const includeAll = ref<boolean>(false);
+const [input, fetchAt] = useSearchFriends(selectPage,includeAll);
 const { friends, numberOfFriends } = storeToRefs(useFriendStore());
 const isEmptyFriend = computed(() => {
   if (numberOfFriends.value === 0) {
@@ -19,6 +21,9 @@ const [] = useScroll({ numberOfFriends: numberOfFriends, selectPage, fetchAt });
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
+
+const {checkMemberStatus} = useUserStore();
+
 </script>
 <template>
   <div class="flex flex-col justify-start items-center py-8 lg:px-32 px-3 min-h-screen relative">
@@ -27,6 +32,14 @@ const scrollToTop = () => {
     <div class="flex flex-row justify-start items-center border border-[#DFDFDF] sm:w-[80%] w-[90%] mx-6 px-6 gap-x-4 bg-[#F3F3F3] my-5 rounded-md py-3">
       <input class="focus:outline-none w-full bg-inherit" placeholder="Search" v-model="input" />
     </div>
+
+    <div v-if="!checkMemberStatus" class="flex flex-row justify-center items-center gap-x-4">
+      <input type="radio" id="one" value="One" :checked="!includeAll" v-model="includeAll" />
+	    <label for="one">ค้นหาเพื่อนในรุ่นเดียวกัน</label>
+	    <input type="radio" id="two" value="Two" :checked="includeAll" v-model="includeAll" />
+      <label for="two">ค้นหาเพื่อนทุกรุ่น</label>
+    </div>
+
     <div class="flex flex-col justify-center items-center gap-y-4 my-3 lg:w-[80%] w-full px-3">
       <div class="flex flex-row justify-between items-center w-full border-b border-b-[#DFDFDF] py-4 my-2 text-[rgba(0,0,0,0.4)]">
         <div class="lg:w-[150px] w-[135px]">NAME</div>

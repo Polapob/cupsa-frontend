@@ -9,16 +9,24 @@ class FriendService {
   constructor(callback: <T>(error: IErrorBase<T>) => void) {
     this.callback = callback;
   }
-  async searchFriends(page: number, keyword = "") {
+  async searchFriends(page: number, keyword = "", includeAll = false) {
     try {
-      const response = await apiClient.get<ISearchFriendsInterface>("/lineApi/friends", {
+      if (includeAll) {
+        return await apiClient.get<ISearchFriendsInterface>("/lineApi/search", {
+          params: {
+            limit: 30,
+            offset: page * 30,
+            keyword,
+          },
+        });
+      }
+      return await apiClient.get<ISearchFriendsInterface>("/lineApi/friends", {
         params: {
           limit: 30,
           offset: page * 30,
           keyword,
         },
       });
-      return response;
     } catch (err) {
       console.log(err);
       axiosErrorHandler(this.callback);

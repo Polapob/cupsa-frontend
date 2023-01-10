@@ -16,10 +16,10 @@ const useFriendStore = defineStore("friend", () => {
     return friends.value.length;
   });
 
-  const searchFriends = async (page = 0, keyword = "") => {
+  const searchFriends = async (page = 0, keyword = "", includeAll = false) => {
     try {
       loadingStatus.value = LoadingStatus.LOADING;
-      const response = await friendService.searchFriends(page, keyword);
+      const response = await friendService.searchFriends(page, keyword, includeAll);
       if (!response) {
         return { paginationData: {} as PaginationMetadataTypes };
       }
