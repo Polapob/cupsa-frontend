@@ -3,7 +3,7 @@ import { defineProps } from "vue";
 defineProps<{ title: string; data: [string, any][] }>();
 </script>
 <template>
-  <div class="w-full mb-4">
+  <div class="w-full mb-4" v-if="data.length > 0">
     <div class="font-bold md:text-20 sm:text-18 text-16 mb-3">{{ title }}</div>
     <div
       class=""
