@@ -28,7 +28,7 @@ const { checkMemberStatus } = useUserStore();
   <div
     class="flex flex-col justify-start items-center py-8 lg:px-32 px-3 min-h-screen relative">
     <div class="hidden">{{ selectPage }}</div>
-    <div class="font-bold lg:text-2xl text-[20px] leading-7">
+    <div class="font-bold lg:text-2xl text-20 leading-7">
       ค้นหาเพื่อนจากชื่อ หรือ นามสกุล
     </div>
     <div
@@ -64,19 +64,19 @@ const { checkMemberStatus } = useUserStore();
       <div
         v-if="isEmptyFriend"
         class="w-full flex flex-col justify-center items-center">
-        <div class="sm:text-[20px] text-[16px] font-bold">
+        <div class="sm:text-20 text-16 font-bold">
           ไม่พบเพื่อนที่มีชื่อตรงกับที่คุณกรอก
         </div>
       </div>
       <div v-for="friend in friends" v-bind:key="friend.id" class="w-full">
         <div class="flex justify-between items-center w-full py-4 rounded-xl">
-          <div class="lg:w-[250px] w-[200px] sm:text-[16px] text-[14px]">
+          <div class="lg:w-[250px] w-[200px] sm:text-16 text-14">
             {{ friend.fullName }}
           </div>
           <div class="">{{ friend.generationId }}</div>
           <router-link :to="{ path: `view-friend/${friend.id}` }">
             <button
-              class="rounded-xl lg:px-8 px-4 py-2 bg-blue-500 text-white font-semibold hover:bg-opacity-80 transition-colors duration-200 sm:text-[16px] text-[14px]"
+              class="rounded-xl lg:px-8 px-4 py-2 bg-blue-500 text-white font-semibold hover:bg-opacity-80 transition-colors duration-200 sm:text-16 text-14"
               :class="{ invisible: !friend.canView }">
               View
             </button>
@@ -89,7 +89,7 @@ const { checkMemberStatus } = useUserStore();
       @click="scrollToTop">
       <font-awesome-icon
         icon="fa-solid fa-angles-up"
-        class="text-white text-[20px]" />
+        class="text-white text-20" />
     </button>
   </div>
 </template>
