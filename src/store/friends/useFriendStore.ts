@@ -5,7 +5,10 @@ import friendService from "../../services/FriendService";
 import { LoadingStatus } from "../type";
 import { FriendDataTypes } from "../../utils/Composables/useSearchFriends/type";
 import processFriendData from "../../utils/FriendService/processFriendData";
-import { PaginationMetadataTypes } from "../../utils/FriendService/type";
+import {
+  PaginationMetadataTypes,
+  SearchFriendMode,
+} from "../../utils/FriendService/type";
 
 const useFriendStore = defineStore("friend", () => {
   const friends = ref<FriendDataTypes[]>([]);
@@ -16,10 +19,14 @@ const useFriendStore = defineStore("friend", () => {
     return friends.value.length;
   });
 
-  const searchFriends = async (page = 0, keyword = "") => {
+  const searchFriends = async (
+    page = 0,
+    mode: SearchFriendMode,
+    keyword = ""
+  ) => {
     try {
       loadingStatus.value = LoadingStatus.LOADING;
-      const response = await friendService.searchFriends(page, keyword);
+      const response = await friendService.searchFriends(page, keyword, mode);
       if (!response) {
         return { paginationData: {} as PaginationMetadataTypes };
       }
@@ -36,7 +43,13 @@ const useFriendStore = defineStore("friend", () => {
     }
   };
 
-  return { friends, loadingStatus, errorMessage, numberOfFriends, searchFriends };
+  return {
+    friends,
+    loadingStatus,
+    errorMessage,
+    numberOfFriends,
+    searchFriends,
+  };
 });
 
 export default useFriendStore;

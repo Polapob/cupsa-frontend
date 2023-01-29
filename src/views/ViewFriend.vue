@@ -2,58 +2,65 @@
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import friendService from "../services/FriendService";
-import { ViewFriendResponse } from "../utils/FriendService/type";
+import friendDataAdapter, {
+  FriendDataAdapterResult,
+} from "../utils/ViewFriend/friendDataAdapter";
+import DisplayData from "../components/ViewFriend/DisplayData.vue";
 
-const friendInfo = ref<ViewFriendResponse>({} as ViewFriendResponse);
+const friendInfo = ref<FriendDataAdapterResult>({} as FriendDataAdapterResult);
 
 onMounted(async () => {
   const router = useRoute();
   const studentId = router.path.split("/").slice(-1).toString();
   const friendData = await friendService.viewFriend(studentId);
   if (friendData) {
-    friendInfo.value = friendData.data.result;
-    console.log(friendInfo.value);
+    friendInfo.value = friendDataAdapter(friendData.data.result);
   }
 });
 </script>
 <template>
-  <div class="flex flex-col justify-start items-center">
-    <div class="font-bold text-[28px] mb-4">ข้อมูลที่ได้จากการค้นหาข้อมูล</div>
-    <div class="flex flex-col justify-center items-start w-3/4" v-if="friendInfo.first_name">
-      <div class="font-bold text-[26px]">
-        {{ friendInfo.prefix }} {{ friendInfo.first_name }} {{ friendInfo.last_name }} (รุ่นที่ {{ friendInfo.generation_id }})
+  <div class="flex flex-col justify-start items-center pb-10">
+    <div class="flex justify-center items-center relative w-full">
+      <button
+        @click="$router.go(-1)"
+        class="flex-1 bg-red-500 sm:text-16 text-14 text-white py-2 sm:px-4 px-4 rounded-lg transition-colors hover:bg-opacity-80 absolute left-0">
+        Back
+      </button>
+      <div class="font-bold md:text-28 sm:text-24 text-20 h-full">
+        ข้อมูลที่ได้จากการค้นหาข้อมูล
       </div>
+    </div>
 
-      <div class="text-[24px] my-4">ข้อมูลทั่วไป</div>
-      <div class="flex flex-row justify-start items-center text-[18px] w-full p-2 bg-gray-100">
-        <div class="w-[200px] font-bold">ชื่อ-สกุล ภาษาไทย</div>
-        <div v-if="friendInfo.first_name">{{ friendInfo.first_name }} {{ friendInfo.last_name }}</div>
-        <div v-else>ไม่ระบุ</div>
+    <div
+      class="flex flex-col justify-center items-start xl:w-[1000px] w-full gap-y-3 px-3"
+      v-if="friendInfo.isShowGeneral">
+      <div
+        class="font-bold md:text-24 md:leading-9 sm:text-20 sm:leading-[30px] my-4">
+        {{ friendInfo.availableData.prefix }}
+        {{ friendInfo.availableData.first_name }}
+        {{ friendInfo.availableData.last_name }}
+        (รุ่น {{ friendInfo.availableData.generation_id }})
       </div>
-      <div class="flex flex-row justify-start items-center text-[18px] w-full p-2">
-        <div class="w-[200px] font-bold">ชื่อ-สกุล ภาษาอังกฤษ</div>
-        <div v-if="friendInfo.first_name_eng">{{ friendInfo.first_name_eng }} {{ friendInfo.last_name_eng }}</div>
-        <div v-else>ไม่ระบุ</div>
-      </div>
-      <div class="flex flex-row justify-start items-center text-[18px] w-full p-2 bg-gray-100">
-        <div class="w-[200px] font-bold">สถานะ</div>
-        <div v-if="friendInfo.is_member === '1'">เป็นสามัญสมาชิค</div>
-        <div v-else>ไม่เป็นสามัญสมาชิค</div>
-      </div>
-      <div class="flex flex-row justify-start items-center text-[18px] w-full p-2">
-        <div class="w-[200px] font-bold">รหัสประจำตัวนักเรียน</div>
-        <div>{{ friendInfo.tu_id.split("-").splice(-1).toString() }}</div>
-      </div>
-      <div class="flex flex-row justify-start items-center text-[18px] w-full p-2 bg-gray-100">
-        <div class="w-[200px] font-bold">เพศ</div>
-        <div v-if="friendInfo.sex === 'f'">หญิง</div>
-        <div v-else-if="friendInfo.sex === 'm'">ชาย</div>
-        <div v-else>ไม่ระบุ</div>
-      </div>
-      <div class="flex flex-row justify-start items-center text-[18px] w-full p-2">
-        <div class="w-[200px] font-bold">รุ่นที่</div>
-        <div>{{ friendInfo.generation_id }}</div>
-      </div>
+      <DisplayData
+        v-if="friendInfo.isShowGeneral"
+        title="ข้อมูลทั่วไป"
+        :data="friendInfo.generalInfo" />
+      <DisplayData
+        v-if="friendInfo.isShowContact"
+        title="ข้อมูลการติดต่อ"
+        :data="friendInfo.contactInfo" />
+      <DisplayData
+        v-if="friendInfo.isShowEducation"
+        title="ข้อมูลการศึกษา"
+        :data="friendInfo.educationInfo" />
+      <DisplayData
+        v-if="friendInfo.isShowAddress"
+        title="ข้อมูลที่อยู่"
+        :data="friendInfo.addressInfo" />
+      <DisplayData
+        v-if="friendInfo.isShowOffice"
+        title="ข้อมูลที่ทำงาน"
+        :data="friendInfo.officeInfo" />
     </div>
   </div>
 </template>

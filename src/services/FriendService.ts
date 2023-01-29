@@ -1,7 +1,11 @@
 import apiClient from "../utils/axios/axios";
 import { IErrorBase } from "../utils/axios/axiosError.type";
 import axiosErrorHandler from "../utils/axios/errorHandler";
-import { ISearchFriendsInterface, IViewFriendInterface } from "../utils/FriendService/type";
+import {
+  ISearchFriendsInterface,
+  IViewFriendInterface,
+  SearchFriendMode,
+} from "../utils/FriendService/type";
 import { sampleCallback } from "./utils";
 
 class FriendService {
@@ -9,16 +13,24 @@ class FriendService {
   constructor(callback: <T>(error: IErrorBase<T>) => void) {
     this.callback = callback;
   }
-  async searchFriends(page: number, keyword = "") {
+  async searchFriends(page: number, keyword = "", mode: SearchFriendMode) {
     try {
-      const response = await apiClient.get<ISearchFriendsInterface>("/lineApi/friends", {
+      if (mode === "all-generation") {
+        return await apiClient.get<ISearchFriendsInterface>("/lineApi/search", {
+          params: {
+            limit: 30,
+            offset: page * 30,
+            keyword,
+          },
+        });
+      }
+      return await apiClient.get<ISearchFriendsInterface>("/lineApi/friends", {
         params: {
           limit: 30,
           offset: page * 30,
           keyword,
         },
       });
-      return response;
     } catch (err) {
       console.log(err);
       axiosErrorHandler(this.callback);
@@ -27,7 +39,9 @@ class FriendService {
 
   async viewFriend(studentId: string) {
     try {
-      const response = await apiClient.get<IViewFriendInterface>(`/lineApi/friend/${studentId}`);
+      const response = await apiClient.get<IViewFriendInterface>(
+        `/lineApi/friend/${studentId}`
+      );
       return response;
     } catch (err) {
       console.log(err);
