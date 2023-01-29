@@ -6,10 +6,11 @@ import { computed, ref } from "vue";
 import { storeToRefs } from "pinia";
 import useFriendStore from "../store/friends/useFriendStore";
 import useUserStore from "../store/user/useUserStore";
+import { SearchFriendMode } from "../utils/FriendService/type";
 
 const selectPage = ref<number>(0);
-const includeAll = ref<boolean>(false);
-const [input, fetchAt] = useSearchFriends(selectPage, includeAll);
+const searchMode = ref<SearchFriendMode>("my-generation");
+const [input, fetchAt] = useSearchFriends(selectPage, searchMode);
 const { friends, numberOfFriends } = storeToRefs(useFriendStore());
 const isEmptyFriend = computed(() => {
   if (numberOfFriends.value === 0) {
@@ -30,6 +31,8 @@ const { checkMemberStatus } = useUserStore();
     <div class="hidden">{{ selectPage }}</div>
     <div class="font-bold lg:text-2xl text-20 leading-7">
       ค้นหาเพื่อนจากชื่อ หรือ นามสกุล
+      <span v-if="searchMode === 'my-generation'">ในรุ่นเดียวกัน</span>
+      <span v-if="searchMode === 'all-generation'">กับเพื่อนทุกรุ่น</span>
     </div>
     <div
       class="flex flex-row justify-start items-center border border-[#DFDFDF] sm:w-[80%] w-[90%] mx-6 px-6 gap-x-4 bg-[#F3F3F3] my-5 rounded-md py-3">
@@ -40,17 +43,20 @@ const { checkMemberStatus } = useUserStore();
     </div>
 
     <div
-      v-if="!checkMemberStatus"
+      v-if="checkMemberStatus"
       class="flex flex-row justify-center items-center gap-x-4">
       <input
+        v-model="searchMode"
         type="radio"
-        id="one"
-        value="One"
-        :checked="!includeAll"
-        v-model="includeAll" />
-      <label for="one">ค้นหาเพื่อนในรุ่นเดียวกัน</label>
-      <input type="radio" id="two" value="Two" v-model="includeAll" />
-      <label for="two">ค้นหาเพื่อนทุกรุ่น</label>
+        value="my-generation"
+        name="ds" />
+      <label for="ds">ค้นหาเพื่อนในรุ่นเดียวกัน</label>
+      <input
+        v-model="searchMode"
+        type="radio"
+        value="all-generation"
+        name="al" />
+      <label for="al">ค้นหาเพื่อนทุกรุ่น</label>
     </div>
 
     <div

@@ -1,5 +1,7 @@
 import { AxiosResponse } from "axios";
 
+export type SearchFriendMode = "my-generation" | "all-generation";
+
 export type FriendResultTypes = {
   [key: string]: {
     student_id: string;
