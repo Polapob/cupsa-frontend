@@ -31,7 +31,19 @@ const useFriendStore = defineStore("friend", () => {
         return { paginationData: {} as PaginationMetadataTypes };
       }
       const { data, paginationData } = processFriendData(response);
-      friends.value = page === 0 ? data : [...friends.value, ...data];
+      if (mode === "my-generation") {
+        friends.value = page === 0 ? data : [...friends.value, ...data];
+      }
+      if (mode === "all-generation") {
+        const friendResult = page === 0 ? data : [...friends.value, ...data];
+        const sortFriendResult = friendResult.sort((valA, valB) => {
+          if (valA.fullName < valB.fullName) {
+            return -1;
+          }
+          return 1;
+        });
+        friends.value = sortFriendResult;
+      }
       loadingStatus.value = LoadingStatus.FINISH;
       return { paginationData };
     } catch (err) {
