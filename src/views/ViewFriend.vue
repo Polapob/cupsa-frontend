@@ -26,16 +26,13 @@ onMounted(async () => {
         class="flex-1 bg-red-500 sm:text-16 text-14 text-white py-2 sm:px-4 px-4 rounded-lg transition-colors hover:bg-opacity-80 absolute left-0">
         Back
       </button>
-      <div class="font-bold md:text-28 sm:text-24 text-20 h-full">
-        ข้อมูลที่ได้จากการค้นหาข้อมูล
-      </div>
     </div>
 
     <div
       class="flex flex-col justify-center items-start xl:w-[1000px] w-full gap-y-3 px-3"
       v-if="friendInfo.isShowGeneral">
       <div
-        class="font-bold md:text-24 md:leading-9 sm:text-20 sm:leading-[30px] my-4">
+        class="font-bold md:text-24 md:leading-9 sm:text-20 sm:leading-[30px] mt-6 mb-4">
         {{ friendInfo.availableData.prefix }}
         {{ friendInfo.availableData.first_name }}
         {{ friendInfo.availableData.last_name }}

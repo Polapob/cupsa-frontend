@@ -49,14 +49,14 @@ const { checkMemberStatus } = useUserStore();
         v-model="searchMode"
         type="radio"
         value="my-generation"
-        name="ds" />
-      <label for="ds">ค้นหาเพื่อนในรุ่นเดียวกัน</label>
+        id="my-generation" />
+      <label for="my-generation">ค้นหาเพื่อนในรุ่นเดียวกัน</label>
       <input
         v-model="searchMode"
         type="radio"
         value="all-generation"
-        name="al" />
-      <label for="al">ค้นหาเพื่อนทุกรุ่น</label>
+        id="all-generation" />
+      <label for="all-generation">ค้นหาเพื่อนทุกรุ่น</label>
     </div>
 
     <div
@@ -74,7 +74,7 @@ const { checkMemberStatus } = useUserStore();
           ไม่พบเพื่อนที่มีชื่อตรงกับที่คุณกรอก
         </div>
       </div>
-      <div v-for="friend in friends" v-bind:key="friend.id" class="w-full">
+      <div v-for="(friend, index) in friends" v-bind:key="index" class="w-full">
         <div class="flex justify-between items-center w-full py-4 rounded-xl">
           <div class="lg:w-[250px] w-[200px] sm:text-16 text-14">
             {{ friend.fullName }}
